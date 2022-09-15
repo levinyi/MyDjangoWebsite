@@ -1,0 +1,36 @@
+{% extends 'rootpath_layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">split fasta</h3>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            小工具
+        </div>
+        <!-- Form -->
+        <div class="panel-body">
+            <form class="form-group" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-xs-7">
+                    <div class="form-group" >
+                        <label for="">fasta文件 <a href="/media/files/tools_example/split_fasta/SW004_HC002005SP02_SACO_HC25b27_Merged_20220526_231708_HC25SP02_CDR3J.txt" download="SW004_HC002005SP02_SACO_HC25b27_Merged_20220526_231708_HC25SP02_CDR3J.txt">点击下载查看样例</a></label>
+                        <input type="text" class="form-control" placeholder="上传文件" name="name" />
+                        <input type="file" name="file_name" />
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <button type="submit" class="btn btn-primary">开始拆分</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+
+</div>
+{% endblock %}

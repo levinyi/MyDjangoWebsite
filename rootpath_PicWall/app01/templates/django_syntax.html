@@ -1,0 +1,37 @@
+<html>
+<body>
+	<div>获取的值的使用n1</div>
+	{% n1 %}
+	<div>
+		列表的使用n2
+		{% n1.0 %}
+	    {% for item in n2 %}
+		<span> {{ item }} </span>
+	    {% endfor %}
+	</div>
+	
+	<div>
+		字典的使用n3
+	{% for k,v in n3 %}
+	    <li> {{ k }} {{ v }} </li>
+	{% endfor %}
+
+	</div>
+
+	</div>列表中套字典 n4
+	{% for item in n4 %}
+	    <div> {{ item.name }} {{ item.salary }}</div>
+	{% endfor %}
+
+	<hr/>
+	<div>模版中还支持条件语句
+	    {% if n1 == "fff" %}
+		<h1>"fff"</h1>	
+	    {% elif n1 == "xxx" %}
+	        <h1>"xxx"</h1>
+	    {% else %}
+	        <h1>"ooo"</h1>
+	    {% endif %}
+	</div>
+</body>
+</html>

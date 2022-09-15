@@ -1,0 +1,102 @@
+{% extends 'rootpath_layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div style="margin-bottom:10px">
+        <!-- <a class="btn btn-success" href="/data/add/" target="_black">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            添加新数据</a> -->
+        <a class="btn btn-success" href="/data/update/" target="_black">
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+            更新数据库</a>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">添加数据:只能添加诺和数据</div>
+        <div class="panel-body">
+            <form id="formAdd">
+                <div class="clearfix">
+                    {% for field in form %}
+                    <div class="col-xs-10">
+                        <div class="form-group" style="position: relative; margin-bottom: 20px;">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                            <span class="error-msg" style="color:red; position: absolute;">{{ field.errors.0 }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="col-xs-12">
+                        <button id="btnAdd" type="button" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            添加新数据</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            数据列表
+        </div>
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>数据路径</th>
+                    <th>区域</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in queryset %}
+                <tr>
+                    <th>{{ obj.id }}</th>
+                    <td>{{ obj.data_path }}</td>
+                    <td>{{ obj.get_area_display }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" , href="/data/{{ obj.id }}/edit/">编辑</a>
+                        <a class="btn btn-danger btn-xs" , href="/data/{{ obj.id}}/delete/">删除</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <ul class='pagination'>
+        {{ page_string }}
+    </ul>
+</div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(function(){
+            bindFormAddEvent();
+        });
+        function bindFormAddEvent(){
+            $('#btnAdd').click(function(){
+                $("#error-msg").text(''); // 清空错误信息
+                var formData = $('#formAdd').serialize();
+                $.ajax({
+                    url: '/data/add/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    success: function(res){
+                        if(res.status){
+                            alert('添加成功');
+                            // 用JS实现页面的刷新
+                            location.reload();
+                        }else{
+                            $.each(res.error, function (name, data){
+                                // console.log(name, data);
+                                $("#id_"+name).next().text(data[0]);
+                            })
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+{% endblock %}
