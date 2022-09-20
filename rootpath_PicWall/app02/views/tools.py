@@ -20,7 +20,7 @@ def save_file(request, result_path, python_script, *file_object_list):
     file_list = [] # 文件顺序是怎么样的？按照用户上传的顺序？需要测试一下
     for file_object in file_object_list:
         # 将用户上传的文件保存到result_path目录下
-        file_name = file_object.name
+        file_name = file_object.name.replace(" ","") # 去掉文件名中的空格
         # print("file_name: ", file_name) # 文件名,没有路径, 只有文件名, 如: "test.txt"
         file_path = os.path.join(result_path, file_name) # 文件全路径, 如: "/rootpath_PicWall/app02/tools/split_fasta/split_fasta_results/test.txt"
         # print("file_path: ", file_path)
