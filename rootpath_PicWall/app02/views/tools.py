@@ -1,4 +1,5 @@
 import os
+import re
 from django.shortcuts import render
 from app02 import models
 from django.shortcuts import render, HttpResponse, redirect
@@ -89,6 +90,12 @@ def tools_use(request, tools_name):
             result_path = BASE_DIR + "/tools/project_normalization/normalization_results"
             python_script = "python3 {}/tools/project_normalization/{}.py ".format(BASE_DIR, tools_name)
             return save_file(request, result_path, python_script, file1)
+        elif tools_name == "ReviewLocation":
+            file1 = request.FILES.get("file_name1")
+            result_path = BASE_DIR + "/tools/project_{}/{}_results".format(tools_name,tools_name)
+            python_script = "python3 {}/tools/project_{}/{}.py ".format(BASE_DIR, tools_name, tools_name)
+            return save_file(request, result_path, python_script, file1)
+        
 
 
 class ToolsModelForm(BootStrapModelForm):
