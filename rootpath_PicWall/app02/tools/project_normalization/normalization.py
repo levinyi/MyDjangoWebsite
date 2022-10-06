@@ -17,7 +17,7 @@ def read_384_wells(wells_file):
             print("Warning: \'{}\' is empty, please check! Sheet dimension: {}".format(sheetname, ws.calculate_dimension()))
             continue
 
-        df = pd.DataFrame(ws.values).set_index(0)
+        df = pd.DataFrame(ws.values).set_index(0) # 0 表示什么？
         df.rename(columns=df.iloc[0])
         df = df[1:]
         df.index.names=[None]

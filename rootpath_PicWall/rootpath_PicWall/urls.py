@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin as adm
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls.static import static
 from app01.views import account,depart,pretty,user, admin, task
 from app02.views import data, photo, tools, projects
@@ -84,6 +84,9 @@ urlpatterns = [
     path('tools/<str:tools_name>/use/', tools.tools_use),
     path('tools/<str:tools_name>/update/', tools.tools_update),
     
+
+    #### account
+    path('account/', include('account.urls', namespace='account'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
