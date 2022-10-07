@@ -1,0 +1,55 @@
+{% extends 'rootpath_layout.html' %}
+{% load static %}
+
+<!-- 引用tools的css文件 --> 
+{% block head_css %}
+    <link rel="stylesheet" href="{% static 'CSS/upload_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <!-- <h3 class="panel-default">{{ tools_name }}</h3> -->
+            <h4 class="panel-body"><p>介绍：</p>
+                <p style="text-indent:2em;">该工具是一个将Sanger分析结果产生的sum.txt文件，通过特定筛选和检索生成4个96孔板位置信息的网页工具。</p>
+            </h4>
+            <h4 class="panel-body"><p>筛选条件：</p>
+                <p style="text-indent:2em;">1. #ident == 100</p>
+                <p style="text-indent:2em;">2. #ref_vs_al == TRUE</p>
+                <p style="text-indent:2em;">3. select lower #D40, if #ref is duplicated. </p>
+                <img src="/static/img/ReviewLocation.UsePage.png" alt="">
+            </h4>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            {{ tools_name }}
+        </div>
+        <!-- Form -->
+        <div class="panel-body">
+            <form class="form-group" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-xs-7">
+                    <div class="form-group">
+                        <label for="">输入文件 (sum.txt)<a href="/media/files/tools_example/project_{{ tools_name }}/sum.txt"  download="sum.txt">点击下载查看样例</a></label>
+                        <input type="text" class="form-control" placeholder="上传文件" name="file1" />
+                        <input type="file" name="file_name1" />
+                    </div>
+                </div>
+                <div class="col-xs-7">
+                    <button type="submit" class="btn btn-primary">开始</button>
+                </div>
+            </form>
+            <!-- <div class="form-item">
+                <label for="applyLicense">文件1（xxx）</label>
+                <input readonly style="width:268px" id="applyLicense" type="text" placeholder="shangchuan" autocomplete="off">
+                <input id="fileInput" type="file" name="file">
+                <label for="fileInput" class="file-btn">shangchuan</label>
+            </div> -->
+        </div>
+    </div>
+
+</div>
+{% endblock %}
