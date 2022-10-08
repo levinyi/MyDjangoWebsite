@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app01',
     'app02',
+    'data',
+    'tools',
     'account',
+    'image',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +145,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_REDIRECT_URL = '/home/'
+LOGIN_URL = '/account/login/'
+
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = "dushiyi319@163.com"
+EMAIL_HOST_PASSWORD = "Dsy111??"
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "dushiyi319@163.com"
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

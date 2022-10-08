@@ -1,36 +1,39 @@
 import datetime
 import os
 import time
-from logging import PlaceHolder
-from pyexpat import model
 from django import forms
+from django.shortcuts import render, redirect
 from django.conf import settings
-from django.shortcuts import render
-from pyrsistent import field
-# from app01.utils.bootstrap import BootStrapModelForm
-from app02 import models
-from django.shortcuts import render, HttpResponse, redirect
+from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from .forms import ImageForm
+from .models import Image
+# Create your views here.
 
-def photo_list(request):
+@login_required
+def list_images(request):
     """数据列表"""
     # 去数据库中获取所有数据
-    queryset = models.Photo.objects.all()
-    return render(request, 'photo_list.html',{'queryset':queryset})
+    images = Image.objects.filter(user=request.user)
+    return render(request, 'image/list_images.html',{'images':images})
 
-# 定义一个PhotoModelForm类
-class PhotoModelForm(forms.ModelForm):
-    class Meta:
-        model = models.Photo
-        fields = ['photo_name','note']
-        # fields = ['photo_name', 'photo_time', 'photo_path','upload_time','owner','note']
-
-    def clean_name(self):
-        name = self.cleaned_data['name']
-        if models.Photo.objects.filter(name=name).exists():
-            raise ValidationError('图片名已存在')
-        return name
+@login_required(login_url='/account/login/')
+@csrf_exempt
+@require_POST
+def upload_image(request):
+    form = ImageForm(data=request.POST)
+    if form.is_valid():
+        try:
+            new_item = form.save(commit=False)
+            new_item.user = request.user
+            new_item.save()
+            return JsonResponse({'status':'1'})
+        except:
+            return JsonResponse({'status':'0'})
 
 
 def photo_add(request):
@@ -63,14 +66,14 @@ def photo_add(request):
             # 打印出所有变量到同一行
             print("photo_name: ", photo_name, "photo_time: ", photo_time, "photo_path: ", photo_path, "upload_time: ", upload_time, "owner: ", owner, "note: ", note)
             # 将数据保存到数据库
-            models.Photo.objects.create(photo_name=photo_name, 
+            Image.objects.create(photo_name=photo_name, 
                                         photo_time=photo_time,
                                         photo_path=photo_path,
                                         upload_time=upload_time,
                                         owner=owner,
                                         note=note)
         # 获取数据库中photo_path的值,返回到photo_list.html页面
-        queryset = models.Photo.objects.all()
+        queryset = Image.objects.all()
         return render(request, 'photo_list.html',{'queryset':queryset})
 
 def photo_update(request):
@@ -88,7 +91,7 @@ def photo_update(request):
     # print("photos_list: ", photos_list)
     for each in photos_list:
         # 判断数据库中是否存在该数据
-        if not models.Photo.objects.filter(photo_path="photos/" + each).exists():
+        if not Image.objects.filter(photo_path="photos/" + each).exists():
             # 将数据保存到数据库
             photo_time = time.ctime(os.path.getctime(photos_path+'/'+each))
             photo_time = datetime.datetime.strptime(photo_time, "%a %b %d %H:%M:%S %Y")
@@ -98,7 +101,7 @@ def photo_update(request):
             owner = "admin"
             note = "这是一张图片"
             # 更新到数据库中
-            models.Photo.objects.create(photo_name=photo_name,
+            Image.objects.create(photo_name=photo_name,
                                         photo_time=photo_time,
                                         photo_path=photo_path,
                                         upload_time=upload_time,
@@ -107,7 +110,7 @@ def photo_update(request):
     
     # 检查数据库表中的数据是否在本地，如果不在本地，也就是本地删除了图片，那么数据库中也删除该记录
     # 先查询数据库中的数据
-    queryset = models.Photo.objects.all() # <QuerySet [<Photo: Photo object (1)>, <Photo: Photo object (2)>, <Photo: Photo object (3)>]>
+    queryset = Image.objects.all() # <QuerySet [<Photo: Photo object (1)>, <Photo: Photo object (2)>, <Photo: Photo object (3)>]>
     # 循环查询数据库中的数据
     for each in queryset:
         # 判断数据库中的数据是否在本地
@@ -118,16 +121,32 @@ def photo_update(request):
             each.delete()   
     return redirect('/photo/list/')
 
-def photo_delete(request, nid):
+@login_required
+@csrf_exempt
+@require_POST
+def del_image(request):
     """
     删除数据
     """
-    models.Photo.objects.filter(id=nid).delete()
-    return redirect('/photo/list/')
+    image_id = request.POST['image_id']
+    try:
+        image = Image.objects.get(id=image_id)
+        image.delete()
+        return JsonResponse({'status':"1"})
+    except:
+        return JsonResponse({'status':'2'})
+
+    # models.Image.objects.filter(id=nid).delete()
+    # return redirect('/photo/list/')
 
 def photo_scrolling(request):
     """
-    图片滚动
+    图片滚动,old function
     """
-    queryset = models.Photo.objects.all()
+    queryset = Image.objects.all()
     return render(request, 'photo_scrolling.html',{'queryset':queryset})
+
+
+def falls_images(request):
+    images = Image.objects.all()
+    return render(request, 'image/falls_images.html', {'images':images})

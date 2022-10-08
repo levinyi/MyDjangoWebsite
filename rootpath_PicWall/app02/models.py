@@ -13,14 +13,6 @@ class Data(models.Model):
     class Mete:
         app_label = 'app02'
 
-class Photo(models.Model):
-    """图片管理"""
-    photo_name = models.CharField(verbose_name="图片名称", max_length=64)
-    photo_time = models.DateField(verbose_name="拍摄时间",)
-    photo_path = models.ImageField(upload_to="photos/", verbose_name="图片路径")
-    upload_time = models.DateField(verbose_name="上传时间",)
-    owner = models.CharField(verbose_name="拥有人", max_length=32)
-    note = models.TextField(verbose_name="介绍",null=True, blank=True)
 
 class Tools(models.Model):
     """小工具管理"""

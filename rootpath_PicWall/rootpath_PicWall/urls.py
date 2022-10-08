@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from app01.views import account,depart,pretty,user, admin, task
-from app02.views import data, photo, tools, projects
+from app02.views import data, tools
 
 urlpatterns = [
     path('admin/', adm.site.urls),
@@ -69,17 +69,6 @@ urlpatterns = [
     path('data/<int:nid>/edit/', data.data_edit),
 
 
-    ##### app02 照片管理
-    path('photo/list/', photo.photo_list),
-    path('photo/add/', photo.photo_add),
-    path('photo/update/', photo.photo_update),
-    path('photo/<int:nid>/delete/', photo.photo_delete),
-    path('photo/scrolling/', photo.photo_scrolling),
-    
-    ##### app02 项目管理
-    path('project/list/', projects.project_list),
-
-
     ##### app02 小工具
     path('tools/list/', tools.tools_list),
     path('tools/<str:tools_name>/use/', tools.tools_use),
@@ -87,9 +76,9 @@ urlpatterns = [
     
     #### home
     path('home/', TemplateView.as_view(template_name="home.html"), name="home"),
-
-    #### account
+    path('tools/',include('tools.urls', namespace="tools")),
     path('account/', include('account.urls', namespace='account')),
+    path('image/', include('image.urls', namespace='image')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
