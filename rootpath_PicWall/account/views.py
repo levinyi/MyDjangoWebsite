@@ -10,6 +10,7 @@ from .forms import LoginForm, RegistrationForm, UserProfileForm, UserForm, UserI
 
 
 # Create your views here.
+'''
 def user_login(request): #2
     if request.method =="POST": #3
         login_form = LoginForm(request.POST)  #4
@@ -26,7 +27,7 @@ def user_login(request): #2
     if request.method =="GET":
         login_form = LoginForm()
         return render(request, "account/login.html", {"form":login_form})
-
+'''
 
 def register(request):
     if request.user.is_authenticated:
@@ -87,4 +88,5 @@ def myself_edit(request):
         return render(request, "account/myself_edit.html", {"user_form":user_form, "userprofile_form":userprofile_form, "userinfo_form":userinfo_form})
 
 
-
+def test(request):
+    return render(request, 'account/test.html')

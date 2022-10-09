@@ -2,33 +2,28 @@
 {% load static %}
 
 {% block title %}Login{% endblock %}
-
 {% block content %}
-<div class="row text-center vertical-middle-sm">
-    <h1>Login--Built in Method of Django</h1>
-
+<div class="row">
+    <h1>login</h1>
     {% if form.errors %}
-        <p>your username and password didn't match please try again.</p>
+        <p>Your username and password didn't match . please try again</p>
     {% endif %}
-
-    <p>Input your username and password to login</p>
-    {% if next %}
-        <form class="form-horizontal" action="{% url 'account:user_login' %}?next={{ next }}" method="post">
-    {% else %}
-        <form class="form-horizontal" action="{% url 'account:user_login' %}" method="post">
-    {% endif %}
+    <p>input</p>
+    <form action="{% url 'account:user_login' %}" method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label" style="color:red">
-                <span class="glyphicon glyphicon-user"></span>Username</label>
-            <div class="col-md-6 text-left">{{ form.username }}</div>
+        <div>
+            <label for="{{ form.username.id_for_label }}"><span></span>Username</label>
+            <div>{{ form.username }}</div>
         </div>
-        <div class="form-group">
-            <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label" style="color:blue">
-                <span class="glyphicon glyphicon-floppy-open"></span>Password</label>
-            <div class="col-md-6 text-left">{{ form.password }}</div>
+        <div>
+            <label for="{{ form.password.id_for_label }}"><span></span>Password</label>
+            <div>{{ form.password}}</div>
         </div>
-        <input type="submit" class="btn btn-primary btn-lg" value="Login">
+        <input type="submit" value="login">
     </form>
 </div>
+
+
+<label for="exampleColorInput" class="form-label">Color picker</label>
+<input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
 {% endblock %}

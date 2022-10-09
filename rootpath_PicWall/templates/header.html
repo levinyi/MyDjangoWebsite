@@ -1,44 +1,44 @@
 {% load static %}
-<div class="container">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-            <!-- <a class="navbar-brand" href="#">
-                <img src="{% static '/images/logo.png' %}" width="100px">
-            </a>     -->
-            <a class="navbar-brand" href="#">RootPath数字化办公系统</a>
-        </div>
-        <div>
-            <ul class="nav navbar-nav" role="navigation">
-                <!-- <li><a href="{% url 'account:user_login' %}">BLOG</a></li> -->
-                <li><a href="/data/list/">数据管理</a></li>
-                <li><a href="/photo/list/">图片管理</a></li>
-                <li><a href="/project/list/">项目管理</a></li>
-                <li><a href="/tools/list/">在线工具</a></li>
-                <li><a href="#">link</a></li>
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="{% url 'home' %}" class="nav-link px-2 text-secondary">Home</a></li>
+                <li><a href="{% url 'tools:tools_list' %}" class="nav-link px-2 text-white">数据管理</a></li>
+                <li><a href="{% url 'tools:tools_list' %}" class="nav-link px-2 text-white">图片管理</a></li>
+                <li><a href="{% url 'tools:tools_list' %}" class="nav-link px-2 text-white">项目管理</a></li>
+                <li><a href="{% url 'tools:tools_list' %}" class="nav-link px-2 text-white">在线工具</a></li>
             </ul>
 
+            {% comment %} <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+            </form> {% endcomment %}
 
-            <ul class="nav navbar-nav navbar-right" style="margin-right:10px">
+            <div class="text-end">
                 {% if user.is_authenticated %}
-                    <li>
-                        <div class="dropdown" style="margin-top:8px">
-                            <button class='btn btn-default dropdown-toggle' type='button' id='dropdownMenu' data-toggle='dropdown'>{{ user.username }}
-                                <span class='caret'></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url 'account:password_change' %}">修改密码</a></li>
-                                <li><a href="{% url 'account:my_information' %}">个人信息</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="{% url 'account:user_logout' %}">Logout</a></li>
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'account:password_change' %}">修改密码</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account:my_information' %}">个人信息</a></li>
+                        <li><a class="dropdown-item" href="#">后台管理</a></li>
+                    </ul>
+                    <a href="{% url 'account:user_logout' %}" role="button" class="btn btn-warning">Logout</a>
+                </div>
                 {% else %}
-                    <li><a href="{% url 'account:user_login' %}">Login</a></li>
-                    <li><a href="{% url 'account:user_register' %}">Sign up</a></li>
-                {% endif %}    
-            </ul>   
+                    <a href="{% url 'account:user_login' %}" role="button" class="btn btn-outline-light me-2">Login</a>
+                    <a href="{% url 'account:user_register' %}" role="button" class="btn btn-warning">Sign-up</a>
+                {% endif %}
+            </div>
         </div>
-    </nav>
-</div>
-<script src="{% static 'js/jquery.js' %}"></script>
-<script src="{% static 'js/bootstrap.js' %}"></script>
+    </div>
+</header>
+{% block javascript %}
+<script src="{% static 'plugins/bootstrap-5.1.3/js/bootstrap.js' %}"></script>
+<script src="{% static 'plugins/jquery-3.6.1.min.js' %}"></script>
+{% endblock %}
