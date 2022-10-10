@@ -15,7 +15,7 @@ def tools_list(request):
 
 def tools_use(request, tools_name):
     if request.method == "GET":
-        return render(request, 'tools_{}_use.html'.format(tools_name), {'tools_name':tools_name})
+        return render(request, 'tools/tools_{}_use.html'.format(tools_name), {'tools_name':tools_name})
     elif request.method == "POST":
         user_ip = request.META['REMOTE_ADDR']
         # get submit times data and save to database model
@@ -23,7 +23,7 @@ def tools_use(request, tools_name):
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         result_path = BASE_DIR + "/rootpath_tools/project_{}/{}_results".format(tools_name,tools_name)
 
-        script_files, input_files = globals()[tools_name](request, tools_name)
+        script_files, input_files = globals()[tools_name](request)
         python_script = "python3 {}/rootpath_tools/project_{}/{}.py {}".format(BASE_DIR, tools_name, tools_name, script_files)
         return save_file(request, result_path, python_script, input_files)
 
