@@ -18,47 +18,47 @@ from django.contrib import admin as adm
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
-from app01.views import account,depart,pretty,user, admin, task
+# from app01.views import account,depart,pretty,user, admin, task
 from app02.views import data, tools
 
 urlpatterns = [
     path('admin/', adm.site.urls),
     # path('index/', views.index),
     # path('news/',  views.news),
-    path('login/', account.login),
-    path('logout/', account.logout),
-    path('image/code/', account.image_code),
+    # path('login/', account.login),
+    # path('logout/', account.logout),
+    # path('image/code/', account.image_code),
     # path('info/list/', views.info_list),
     # path('info/delete/', views.info_delete),
     ###### 部门管理
-    path('depart/list/', depart.depart_list),
-    path('depart/add/',    depart.depart_add),
-    path('depart/<int:nid>/edit/',depart.depart_edit),
-    path('depart/delete/', depart.depart_delete),
+    # path('depart/list/', depart.depart_list),
+    # path('depart/add/',    depart.depart_add),
+    # path('depart/<int:nid>/edit/',depart.depart_edit),
+    # path('depart/delete/', depart.depart_delete),
     ###### 用户管理
-    path('user/list/',user.user_list),
-    path('user/add/', user.user_add),
-    path('user/model/form/add/', user.user_model_form_add),
-    path('user/<int:nid>/edit/', user.user_edit),
-    path('user/<int:nid>/delete/', user.user_delete),
+    # path('user/list/',user.user_list),
+    # path('user/add/', user.user_add),
+    # path('user/model/form/add/', user.user_model_form_add),
+    # path('user/<int:nid>/edit/', user.user_edit),
+    # path('user/<int:nid>/delete/', user.user_delete),
 
     ##### 靓号管理
-    path('number/list/', pretty.pretty_list),
-    path('number/add/', pretty.pretty_add),
-    path('number/<int:nid>/edit/', pretty.pretty_edit),
-    path('number/<int:nid>/delete/', pretty.pretty_delete),
+    # path('number/list/', pretty.pretty_list),
+    # path('number/add/', pretty.pretty_add),
+    # path('number/<int:nid>/edit/', pretty.pretty_edit),
+    # path('number/<int:nid>/delete/', pretty.pretty_delete),
 
     ##### 管理员管理
-    path('admin/list/', admin.admin_list),
-    path('admin/add/', admin.admin_add),
-    path('admin/<int:nid>/edit/', admin.admin_edit),
-    path('admin/<int:nid>/delete/', admin.admin_delete),
-    path('admin/<int:nid>/reset/', admin.admin_reset),
+    # path('admin/list/', admin.admin_list),
+    # path('admin/add/', admin.admin_add),
+    # path('admin/<int:nid>/edit/', admin.admin_edit),
+    # path('admin/<int:nid>/delete/', admin.admin_delete),
+    # path('admin/<int:nid>/reset/', admin.admin_reset),
 
     ##### 任务管理，测试Ajax
-    path('task/list/', task.task_list),
-    path('task/ajax/', task.task_ajax),
-    path('task/add/', task.task_add),
+    # path('task/list/', task.task_list),
+    # path('task/ajax/', task.task_ajax),
+    # path('task/add/', task.task_add),
 
 
     ##### app02 数据管理
@@ -76,9 +76,9 @@ urlpatterns = [
     
     #### home
     path('home/', TemplateView.as_view(template_name="home.html"), name="home"),
-    path('tools/',include('tools.urls', namespace="tools")),
+    path('tools/',   include('tools.urls', namespace="tools")),
     path('account/', include('account.urls', namespace='account')),
-    path('image/', include('image.urls', namespace='image')),
+    path('image/',   include('image.urls', namespace='image')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
