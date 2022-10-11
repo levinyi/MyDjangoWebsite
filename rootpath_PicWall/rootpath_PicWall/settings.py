@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app01',
+    # 'app01',
     'app02',
     'data',
     'tools',
@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'app01.middleware.LoginMiddleware', # 自定义登录中间件
     # 'app01.middleware.PermissionMiddleware', # 自定义权限中间件
-    'app01.middleware.auth.AuthMiddleware',
+    # 'app01.middleware.auth.AuthMiddleware',
 ]
 
 ROOT_URLCONF = 'rootpath_PicWall.urls'

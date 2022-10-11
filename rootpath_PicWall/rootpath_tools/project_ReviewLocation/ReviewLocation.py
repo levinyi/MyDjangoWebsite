@@ -29,7 +29,7 @@ def read_input_file(input_file, adict):
     df = pd.read_csv(input_file, sep="\t", dtype=str, encoding='utf-8')
 
     df1 = df.loc[(df['#ident'] == '100.000') & (df['#ref_vs_aln']=='TRUE')]
-    # print(df1
+    # print(df1)
     # df['dup'] = "N"
     # df['dup'].loc[~df.sort_values('#D40 (smaller is better)').duplicated('#ref', keep='first')] ="Y"
     # print(df)
@@ -39,7 +39,8 @@ def read_input_file(input_file, adict):
     # df['select'] = df.apply(lambda x: "Y" if x['#ident']=='100.000' and x['#ref_vs_aln']=='TRUE' else "N", axis=1)
     df1['#D40 (smaller is better)'] = df1['#D40 (smaller is better)'].astype(int)
     df2 = df1.sort_values('#D40 (smaller is better)', ascending=True).drop_duplicates('#ref', keep='first')
-    df2['Well'] = df2['#qry'].map(lambda x:x.split("-")[1])
+    df2['Well'] = df2['#qry'].map(lambda x:x.split("-")[1]).astype(int).astype(str)  # int to string remove 001.
+    # print(df2)
     df2['SourcePlate'] = df2['Well'].map(lambda x:adict[x]['plate_number'])
     df2['SourceWell'] = df2['Well'].map(lambda x:adict[x]['hole_number'])
     df2.Well = df2.Well.astype(int)

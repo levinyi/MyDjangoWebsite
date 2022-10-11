@@ -3,50 +3,52 @@
 
 {% block title %}RootPath Tools{% endblock %}
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/tools.list.css' %}">
+<link rel="stylesheet" href="{% static 'css/tools.list.css' %}">
 {% endblock %}
 {% block content %}
-<div class="container">
+<div class="container py-2">
     <div class="alert alert-info">
         <h5>已开发工具</h5>
     </div>
-    {% for tool in tools %}
-    <div class="main-top-con-cell box-shadow">
-        <div class="box" style="float: left">
-            <a href="{% url 'tools:tools_use' tools_name=tool.tools_name %}" class="item-icon" style="position: relative">
-                <img src="{% static '' %}img/tools_icon/{{ tool.tools_name }}.icon.png" class="icon-img">
-            </a>
-        </div>
-
-        <div style="float: right; width: 255px;">
-            <h3>
-                <a target="_blank" href="{% url 'tools:tools_use' tools_name=tool.tools_name %}" style="color:#0f2436"
-                    title="{{ tool.tools_name }}">
-                    {{ tool.tools_name }}
-                </a>
-            </h3>
-            <p class="item-bd">{{ tool.tools_desc }}</p>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-
-<!-- <div class="container">
-    <div class="row">
         {% for tool in tools %}
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img src="{% static '' %}img/tools_icon/{{ tool.tools_name }}.icon.png" class="icon-img"
-                    class="card-img-" alt="..." style="height: 18rem;">
+        <div class="main-top-con-cell box-shadow">
+            <div class="box" style="float: left">
+                <a href="{% url 'tools:tools_use' tools_name=tool.tools_name %}" class="item-icon"
+                    style="position: relative">
+                    <img src="{% static '' %}img/tools_icon/{{ tool.tools_name }}.icon.png" class="icon-img">
+                </a>
+            </div>
 
-                <div class="card-body">
-                    <h5 class="card-title">{{ tool.tools_name }}</h5>
-                    <p class="card-text">{{ tool.tools_desc }}</p>
-                    <a href="/tools/{{ tool.tools_name }}/" class="btn btn-primary">Start</a>
-                </div>
+            <div style="float: right; width: 255px;">
+                <h3>
+                    <a target="_blank" href="{% url 'tools:tools_use' tools_name=tool.tools_name %}"
+                        style="color:#0f2436" title="{{ tool.tools_name }}">
+                        {{ tool.tools_name }}
+                    </a>
+                </h3>
+                <p class="item-bd">{{ tool.tools_desc }}</p>
             </div>
         </div>
         {% endfor %}
+</div>
+<!-- <div class="py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+                {% for tool in tools %}
+                <div class="card shadow-sm">
+                    <img src="{% static '' %}img/tools_icon/{{ tool.tools_name }}.icon.png" class="icon-img"
+                        class="card-img-" alt="..." style="height: 18rem;">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tool.tools_name }}</h5>
+                        <p class="card-text">{{ tool.tools_desc }}</p>
+                        <a href="/tools/{{ tool.tools_name }}/" class="btn btn-primary">Start</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div> -->
 {% endblock %}
