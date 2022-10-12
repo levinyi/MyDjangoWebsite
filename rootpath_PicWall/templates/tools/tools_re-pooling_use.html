@@ -3,45 +3,26 @@
 
 {% block content %}
 <div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ tools_name }}</h3>
+    <div class="row pt-3">
+        <div class="col">
+            <h3 class="panel-title">Project of {{ tools_name }} Utilities</h3>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-            小工具
-        </div>
-        <!-- Form -->
-        <div class="panel-body">
-            <form class="form-group" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="col-xs-7">
-                    <div class="form-group">
-                        <label for="">文件1 (必须包含"Gene_ID", "Destination plate name","Destination well" 三列)<a href="/media/files/tools_example/project_re-pooling/input1.xlsx"  download="input1.xlsx">点击下载查看样例</a></label>
-                        <input type="text" class="form-control" placeholder="上传文件" name="file1" />
-                        <input type="file" name="file_name1" />
-                    </div>
-                </div>
-                <div class="col-xs-7">
-                    <div class="form-group">
-                        <label for="">文件2(Gene_ID list)   <a href="/media/files/tools_example/project_re-pooling/input2-genelist.xlsx" download="input2-genelist.xlsx">点击下载查看样例</a> </label>
-                        <input type="text" class="form-control" placeholder="Gene_ID list文件" name="file1" />
-                        <input type="file" name="file_name2" />
-                    </div>
-                </div>
-                <div class="col-xs-7">
-                    <button type="submit" class="btn btn-primary">开始</button>
-                </div>
-            </form>
-            <!-- <div class="form-item">
-                <label for="applyLicense">文件1（xxx）</label>
-                <input readonly style="width:268px" id="applyLicense" type="text" placeholder="shangchuan" autocomplete="off">
-                <input id="fileInput" type="file" name="file">
-                <label for="fileInput" class="file-btn">shangchuan</label>
-            </div> -->
-        </div>
+    <div class="mb-4">
+        <label for="formFileLg" class="form-label">文件1 (必须包含"Gene_ID", "Destination plate name","Destination well" 三列)  <a
+                href="/media/files/tools_example/project_re-pooling/input1.xlsx"
+                download="input1.xlsx">点击下载查看样例</a></label>
+        <input class="form-control form-control-lg" type="file" id="formFile" name="file1_name1">
+    </div>
+    <div class="mb-4">
+        <label for="formFileLg" class="form-label">文件2(Gene_ID list) <a
+                href="/media/files/tools_example/project_re-pooling/input2-genelist.xlsx"
+                download="input2-genelist.xlsx">点击下载查看样例</a> </label>
+        <input class="form-control form-control-lg" id="formFileLg" type="file" name="file_name2">
+    </div>
+
+    <div class="col-xs-7 mb-3">
+        <button type="submit" class="btn btn-primary btn-lg">开始</button>
     </div>
 
 </div>

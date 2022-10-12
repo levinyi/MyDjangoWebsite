@@ -27,7 +27,7 @@ class ImageForm(forms.ModelForm):
         image.image.save(image_name, ContentFile(response.read()), save=False)
 
         if commit:
-            image.save()
+            image.save()  # save to database.
         return image
 
 '''

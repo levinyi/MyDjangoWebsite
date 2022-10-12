@@ -3,47 +3,32 @@
 
 {% block content %}
 <div class="container">
-    <div class="">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ tools_name }}</h3>
-        </div>
-    </div>
-    <div class="">
-        <div class="panel-heading">
-            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-            小工具
-        </div>
-        <!-- Form -->
-        <div class="panel-body">
-            <form class="form-group" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="col-xs-7">
-                    <div class="form-group">
-                        <label for="">文件1（包含reads.errFree）  <a href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx" download="DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx">点击下载查看样例</a></label>
-                        <input type="text" class="form-control" placeholder="上传文件" name="file1" />
-                        <input type="file" name="file_name1" />
-                    </div>
-                </div>
-                <div class="col-xs-7">
-                    <div class="form-group">
-                        <label for="">文件2   <a href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx" download="DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx">点击下载查看样例</a> </label>
-                        <input type="text" class="form-control" placeholder="上传浓度信息文件" name="file1" />
-                        <input type="file" name="file_name2" />
-                    </div>
-                </div>
-                <div class="col-xs-7">
-                    <div class="form-group">
-                        <!-- 设置一个输入框，让用户输入总体积 -->
-                        <label for="">Volume</label>
-                        <input type="text" class="form-control" placeholder="40000000000" name="volume" />
-                    </div>
-                </div>
-                <div class="col-xs-7">
-                    <button type="submit" class="btn btn-primary">开始</button>
-                </div>
-            </form>
+    <div class="row pt-3">
+        <div class="col">
+            <h3 class="panel-title">Project of {{ tools_name }} Utilities</h3>
         </div>
     </div>
 
+    <!-- Form -->
+    <div class="mb-4">
+        <label for="formFileLg" class="form-label">文件1（包含reads.errFree） <a
+                href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx"
+                download="DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx">点击下载查看样例</a></label>
+        <input class="form-control form-control-lg" type="file" id="formFile" name="file_name1">
+    </div>
+    <div class="mb-4">
+        <label for="formFileLg" class="form-label">文件2 <a
+                href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx"
+                download="DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx">点击下载查看样例</a> </label>
+        <input class="form-control form-control-lg" id="formFileLg" type="file" name="file_name2">
+    </div>
+    <div class="col-auto mb-3">
+        <label for="" class="form-label">Volume</label>
+        <input type="text" class="form-control" placeholder="40000000000" name="volume" />
+    </div>
+    <div class="col-xs-7 mb-3">
+        <button type="submit" class="btn btn-primary btn-lg">开始</button>
+    </div>
+    <!-- end Form -->
 </div>
 {% endblock %}
