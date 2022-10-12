@@ -1,6 +1,5 @@
 from django import forms
 
-from django import forms
 from django.core.files.base import ContentFile
 from slugify import slugify
 from urllib import request
@@ -10,7 +9,7 @@ from .models import Image
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ('title','description')
+        fields = ('title','url','description')
 
     def clean_url(self):
         url = self.cleaned_data['url']

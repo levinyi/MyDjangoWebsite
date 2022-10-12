@@ -15,7 +15,7 @@ class Image(models.Model):
     
     description = models.TextField(verbose_name="介绍",null=True, blank=True)
     created = models.DateField(verbose_name="上传时间",auto_now_add=True, db_index=True)
-    image = models.ImageField(upload_to="photo/%Y/")
+    image = models.ImageField(upload_to="photo/%Y/%m")
 
     def __str__(self):
         return self.title
