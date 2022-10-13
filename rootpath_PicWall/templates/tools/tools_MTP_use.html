@@ -10,25 +10,27 @@
     </div>
 
     <!-- Form -->
-    <div class="mb-4">
-        <label for="formFileLg" class="form-label">文件1（包含reads.errFree） <a
-                href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx"
-                download="DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx">点击下载查看样例</a></label>
-        <input class="form-control form-control-lg" type="file" id="formFile" name="file_name1">
-    </div>
-    <div class="mb-4">
-        <label for="formFileLg" class="form-label">文件2 <a
-                href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx"
-                download="DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx">点击下载查看样例</a> </label>
-        <input class="form-control form-control-lg" id="formFileLg" type="file" name="file_name2">
-    </div>
-    <div class="col-auto mb-3">
-        <label for="" class="form-label">Volume</label>
-        <input type="text" class="form-control" placeholder="40000000000" name="volume" />
-    </div>
-    <div class="col-xs-7 mb-3">
-        <button type="submit" class="btn btn-primary btn-lg">开始</button>
-    </div>
+    <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="mb-4">
+            <label for="formFileLg" class="form-label">文件1（包含reads.errFree） <a
+                    href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx"
+                    download="DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx">点我查看样例</a></label>
+            <input class="form-control form-control-lg" type="file" id="formFile" name="file_name1">
+        </div>
+        <div class="mb-4">
+            <label for="formFileLg" class="form-label">文件2 <a
+                    href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx"
+                    download="DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx">点我查看样例</a> </label>
+            <input class="form-control form-control-lg" id="formFileLg" type="file" name="file_name2">
+        </div>
+        <div class="col-auto mb-3">
+            <label for="" class="form-label">Volume</label>
+            <input type="text" class="form-control" placeholder="40000000000" name="volume" />
+        </div>
+        <div class="col-xs-7 mb-3">
+            <button type="submit" class="btn btn-primary btn-lg">开始</button>
+        </div>
+    </form>
     <!-- end Form -->
 </div>
 {% endblock %}

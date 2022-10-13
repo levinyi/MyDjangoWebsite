@@ -10,7 +10,7 @@ urlpatterns = [
     path('del-image/', views.del_image, name='del_image'),
     path('images/', views.falls_images, name='falls_images'),
     
-    path('add/', views.photo_add, name="photo_add"),
+    path('add-images/', views.add_images, name="add_images"),
     path('update/', views.photo_update, name="photo_update"),
     path('scrolling/', views.photo_scrolling, name="photo_scrolling"),
 ]

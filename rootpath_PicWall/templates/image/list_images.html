@@ -3,8 +3,9 @@
 {% load static %}
 {% block title %}images{% endblock %}
 {% block content %}
-<div>
-    <button type="button" class="btn btn-primary btn-lg col-12" onclick="addImage()">添加图片</button>
+<div class="pt-3 mb-3">
+    <a  class="btn btn-primary btn-lg col-12" href="{% url 'image:add_images' %}" role="button">添加图片</a>
+
     <div style="margin-top:10px;">
         <table class="table table-hover">
             <tr>
@@ -33,77 +34,4 @@
     </div>
 </div>
 
-
-<div class="dropdown">
-    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-        aria-expanded="false">
-        Dropdown link
-    </a>
-
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-    </ul>
-</div>
-
-<script type="text/javascript">
-    function addImage() {
-        var index = layer.open({
-            type: 1,
-            skin: 'layui-layer-demo',
-            closeBtn: 0,
-            shift: 2,
-            shadeClose: true,
-            title: "Add Image",
-            area: ['600px', '440px'],
-            content: "<div style='padding:20px'><p>请新增扩展名是.jpg 或.png 的网上照片地址</p><form><div class='form-group'><label for='phototitle' class='col-sm-2 control-label'>标题</label><div class='col-sm-10'><input id='phototitle' type='text' class='form-control' style='margin-bottom:5px'></div></div><div class='form-group'><label for='photourl' class='col-sm-2 control-label'>地址</label><div class='col-sm-10'><input id='photourl' style='margin-bottom:5px' type='text' class='form-control'></div></div><div class='form-group'><label for='description' class='col-sm-2 control-label'>描述</label> <div class='col-sm-10'><textarea class='form-control' style='margin-bottom:5px' row='2' id='photodescription'></textarea></div></div><div class='form-group'><div class='col-sm-offset-2 col-sm-10'><input id='newphoto' type='button' class='btn btn-default' value='Add It'></div></div></form></div>",
-            success: function () {
-                $("#newphoto").on('click', function () {
-                    var title = $("#phototitle").val();
-                    var url = $("#photourl").val();
-                    var description = $("#photodescription").val();
-                    var photo = { "title": title, "url": url, "description": description };
-                    $.ajax({
-                        url: '{% url "image:upload_image" %}',
-                        type: "POST",
-                        data: photo,
-                        success: function (e) {
-                            var status = e['status']
-                            if (status == "1") {
-                                layer.close(index);
-                                window.location.reload();
-                            } else {
-                                layer.msg("图片无法获取，请更换图片");
-                            }
-                        },
-                    });
-                });
-            },
-        });
-    }
-</script>
-
-
-<div style='padding:20px'>
-    <p>请新增扩展名是.jpg 或.png 的网上照片地址</p>
-    <form>
-        <div class='col-md-3'><label for='phototitle' class='col-sm-2 '>标题</label>
-            <div class='col-sm-10'><input id='phototitle' type='text' class='form-control' style='margin-bottom:5px'>
-            </div>
-        </div>
-        <div class='col-md-3'><label for='photourl' class='col-sm-2 control-label'>地址</label>
-            <div class='col-sm-10'><input id='photourl' style='margin-bottom:5px' type='text' class='form-control'>
-            </div>
-        </div>
-        <div class='col-md-3'><label for='description' class='col-sm-2 control-label'>描述</label>
-            <div class='col-sm-10'><textarea class='form-control' style='margin-bottom:5px' row='2'
-                    id='photodescription'></textarea></div>
-        </div>
-        <div class='col-md-3'>
-            <div class='col-sm-offset-2 col-sm-10'><input id='newphoto' type='button' class='btn btn-primary'
-                    value='Add It'></div>
-        </div>
-    </form>
-</div>
 {% endblock %}

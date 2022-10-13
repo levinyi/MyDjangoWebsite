@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} Add Images{% endblock %}
+
+{% block content %}
+<div style='padding:20px'>
+    <p>请新增扩展名是.jpg 或.png 的网上照片地址</p>
+    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+    {% for field in form %}
+        <div class='col-md-3'>
+            <label class='col-sm-12 form-group control-label'>{{ field.label }}</label>
+            <label class='col-sm-12 form-control' style='margin-bottom:15px' >{{ field }} </label>
+        </div>
+    {% endfor %}
+        <div class='col-md-3'>
+            <div class='col-sm-offset-2 col-sm-10'>
+                <button type='submit' class='btn btn-primary'>Add It</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

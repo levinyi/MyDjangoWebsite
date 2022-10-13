@@ -29,20 +29,18 @@
         </div>
     </div>
     <!-- Form -->
-    <div class="md-4">
-        <h4>>Start To Use</h4>
-        <form class="form-group" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+    <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="md-4">
+            <h4>>Start To Use</h4>
             <label for="formFileLg" class="form-label">输入文件 (sum.txt)
                 <a href="/media/files/tools_example/project_{{ tools_name }}/sum.txt"
                     download="sum.txt">点击下载查看样例</a></label>
             <input type="file" class="form-control form-control-lg" name="file_name1" />
-        </form>
-    </div>
-    <div class="col-xs-7 pt-3">
-        <button type="submit" class="btn btn-primary btn-lg">开始</button>
-    </div>
-
+        </div>
+        <div class="col-xs-7 pt-3">
+            <button type="submit" class="btn btn-primary btn-lg">开始</button>
+        </div>
+    </form>
 </div>
 
 </div>

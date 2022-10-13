@@ -1,5 +1,6 @@
 import datetime
 import os
+import re
 import time
 from django import forms
 from django.shortcuts import render, redirect
@@ -34,6 +35,22 @@ def upload_image(request):
             return JsonResponse({'status':'1'})
         except:
             return JsonResponse({'status':'0'})
+
+
+
+@login_required
+def add_images(request):
+    if request.method == "GET":
+        form = ImageForm()
+        return render(request, "image/image_add.html", {"form":form})
+    form = ImageForm(data = request.POST)
+    print("request.post: ",request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect("/image/list-images/")
+    else:
+        return render(request, "image/image_add.html",{'form':form})
+
 
 
 def photo_add(request):
