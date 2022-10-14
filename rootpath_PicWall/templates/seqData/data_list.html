@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <!-- header -->
+    <div class="row">
+        <div class="col-12">
+            <div class="bg-light rounded-3 d-flex justify-content-between ps-md-10 ps-6">
+                <h1 class="mb-0 fw-bold">test</h1>
+            </div>
+        </div>
+        <div class="col-lg pt-3 border-bottom pb-lg-4 pb-3">
+            <p>"若您上传数据的‘测序公司’或‘区域’不在列表中，请登录后台添加相应信息后再试！"</p>
+        </div>
+    </div>
+
+    <!-- form of input -->
+    <div class="row">
+        <div class="col-12">
+            <form id="formAdd">
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    <span class="error-msg" style="color:red; position: absolute;">{{ field.errors.0 }}</span>
+                </div>
+                {% endfor %}
+
+                <div class="col-xs-7 mb-3">
+                    <button id="btnAdd" type="button" class="btn btn-primary btn-lg">添加新数据</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- list of data -->
+    <div class="row">
+        <div class="col">
+            数据列表
+        </div>
+        <!-- Table -->
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">数据路径</th>
+                    <th scope="col">区域</th>
+                    <th scope="col">公司</th>
+                    <th scope="col">时间</th>
+                    <th scope="col">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in queryset %}
+                <tr>
+                    <th scope="row">{{ obj.id }}</th>
+                    <td>{{ obj.data_path }}</td>
+                    <td>{{ obj.area }}</td>
+                    <td>{{ obj.company }}</td>
+                    <td>{{ obj.ctime }}</td>
+                    <td>
+                        <a class="btn btn-secondary btn-sm" , href="{% url 'seqData:data_edit' nid=obj.id %}">编辑</a>
+                        <a class="btn btn-danger btn-sm" , href="{% url 'seqData:data_delete' nid=obj.id %}">删除</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-bottom:10px; margin-top:10px;">
+        <a class="btn btn-success" href="{% url 'data:update' %}" target="_black">更新数据库</a>
+    </div>
+
+    <ul class='pagination'>
+        {{ page_string }}
+    </ul>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/jquery.js' %}"></script>
+<script type="text/javascript">
+    $(function () {
+        bindFormAddEvent();
+    });
+    function bindFormAddEvent() {
+        $('#btnAdd').click(function () {
+            $("#error-msg").text(''); // 清空错误信息
+            var formData = $('#formAdd').serialize();
+            $.ajax({
+                url: '/SeqData/add/',
+                type: 'POST',
+                dataType: 'json',
+                data: formData,
+                success: function (res) {
+                    if (res.status) {
+                        alert('添加成功');
+                        // 用JS实现页面的刷新
+                        // location.reload();
+                    } else {
+                        $.each(res.error, function (name, data) {
+                            // console.log(name, data);
+                            $("#id_" + name).next().text(data[0]);
+                        })
+                    }
+                }
+            });
+        });
+    }
+</script>
+{% endblock %}

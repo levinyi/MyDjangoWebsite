@@ -3,6 +3,13 @@
 
 {% block content %}
 <div class="container">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'tools:tools_list' %}">在线工具</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ tools_name }}</li>
+        </ol>
+    </nav>
+
     <div class="row pt-3">
         <div class="col">
             <h3 class="panel-title">Project of {{ tools_name }} Utilities</h3>
@@ -15,17 +22,18 @@
             <label for="formFileLg" class="form-label">文件1（包含reads.errFree） <a
                     href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx"
                     download="DialoutList_BBI01bPool05-10_G484L1_1stPCR_wReads.xlsx">点我查看样例</a></label>
-            <input class="form-control form-control-lg" type="file" id="formFile" name="file_name1">
+            <input class="form-control form-control-lg" type="file" id="formFile" name="file_name1" required="required">
         </div>
         <div class="mb-4">
             <label for="formFileLg" class="form-label">文件2 <a
                     href="/media/files/tools_example/project_MTP/DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx"
                     download="DialoutList_BBI01bPool05-10_G484L1_2ndPCR_wReads.xlsx">点我查看样例</a> </label>
-            <input class="form-control form-control-lg" id="formFileLg" type="file" name="file_name2">
+            <input class="form-control form-control-lg" id="formFileLg" type="file" name="file_name2"
+                required="required">
         </div>
         <div class="col-auto mb-3">
             <label for="" class="form-label">Volume</label>
-            <input type="text" class="form-control" placeholder="40000000000" name="volume" />
+            <input type="text" class="form-control" placeholder="40000000000" name="volume" required="required" />
         </div>
         <div class="col-xs-7 mb-3">
             <button type="submit" class="btn btn-primary btn-lg">开始</button>

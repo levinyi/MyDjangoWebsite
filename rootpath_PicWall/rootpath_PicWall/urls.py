@@ -79,6 +79,7 @@ urlpatterns = [
     path('tools/',   include('tools.urls', namespace="tools")),
     path('account/', include('account.urls', namespace='account')),
     path('image/',   include('image.urls', namespace='image')),
+    path('SeqData/', include('seqData.urls', namespace="data")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

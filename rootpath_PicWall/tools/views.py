@@ -16,17 +16,18 @@ def tools_list(request):
 
 
 def tools_use(request, tools_name):
+    user_ip = request.META['REMOTE_ADDR']
     if request.method == "GET":
+        print("user_ip: {} is trying to use {} tools!".format(user_ip, tools_name))
         return render(request, 'tools/tools_{}_use.html'.format(tools_name), {'tools_name': tools_name})
     elif request.method == "POST":
-        user_ip = request.META['REMOTE_ADDR']
         # get submit times data and save to database model
-        print("user_ip: ", user_ip)
+        print("user_ip: {} has submit the value in {} tools".format(user_ip, tools_name))
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         result_path = BASE_DIR + \
             "/rootpath_tools/project_{}/{}_results".format(
                 tools_name, tools_name)
-
+        print(tools_name)
         script_files, input_files = globals()[tools_name](request)
         python_script = "python3 {}/rootpath_tools/project_{}/{}.py {}".format(
             BASE_DIR, tools_name, tools_name, script_files)
