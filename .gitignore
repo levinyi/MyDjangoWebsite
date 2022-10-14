@@ -1,2 +1,3 @@
 *.zip
 rootpath_tools/
+*rootpath_tools/*
