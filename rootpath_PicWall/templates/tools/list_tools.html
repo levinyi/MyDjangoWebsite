@@ -1,54 +1,78 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}RootPath Tools{% endblock %}
+{% block title %}Tools List{% endblock %}
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'css/tools.list.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/my.tmp.css' %}">
+
 {% endblock %}
+
 {% block content %}
-<div class="container py-2">
-    <div class="alert alert-info">
-        <h5>已开发工具</h5>
-    </div>
-        {% for tool in tools %}
-        <div class="main-top-con-cell box-shadow">
-            <div class="box" style="float: left">
-                <a href="{% url 'tools:tools_use' tools_name=tool.tools_name %}" class="item-icon"
-                    style="position: relative">
-                    <img src="{% static '' %}img/tools_icon/{{ tool.tools_name }}.icon.png" class="icon-img">
-                </a>
-            </div>
 
-            <div style="float: right; width: 255px;">
-                <h3>
-                    <a target="_blank" href="{% url 'tools:tools_use' tools_name=tool.tools_name %}"
-                        style="color:#0f2436" title="{{ tool.tools_name }}">
-                        {{ tool.tools_name }}
-                    </a>
-                </h3>
-                <p class="item-bd">{{ tool.tools_desc }}</p>
-            </div>
-        </div>
-        {% endfor %}
-</div>
-<!-- <div class="py-5 bg-light">
+
+<section class="mt-8">
     <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div class="col">
-                {% for tool in tools %}
-                <div class="card shadow-sm">
-                    <img src="{% static '' %}img/tools_icon/{{ tool.tools_name }}.icon.png" class="icon-img"
-                        class="card-img-" alt="..." style="height: 18rem;">
-
-                    <div class="card-body">
-                        <h5 class="card-title">{{ tool.tools_name }}</h5>
-                        <p class="card-text">{{ tool.tools_desc }}</p>
-                        <a href="/tools/{{ tool.tools_name }}/" class="btn btn-primary">Start</a>
+        <div class="row">
+            <div class="col-12">
+                <div
+                    class="bg-light d-lg-flex justify-content-between align-items-center py-6 py-lg-3 px-8 rounded-3 text-center text-lg-start">
+                    <!-- img -->
+                    <div class="d-lg-flex align-items-center">
+                        <img src="https://freshcart.codescandy.com/assets/images/about/about-icons-1.svg" alt=""
+                            class="img-fluid">
+                        <!-- text -->
+                        <div class="ms-lg-4">
+                            <h1 class="fs-2 mb-1">We have <span class="text-primary">7</span> tools now</h1>
+                            <!-- <span>We have  &amp; <span class="text-primary">7</span> vendors now.</span> -->
+                        </div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
         </div>
     </div>
-</div> -->
+</section>
+<section class="mt-6 mb-lg-14 mb-8">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 g-lg-4">
+            {% for tool in tools %}
+            <div class="col">
+                <div class="card flex-row p-8 card-product">
+                    <div>
+                        <img src="{% static '' %}img/tools_icon/{{ tool.tools_name }}.icon.png" alt=""
+                            class="rounded-circle icon-shape icon-xl">
+                    </div>
+                    <!-- content -->
+                    <div class="ms-6">
+                        <h5 class="mb-1"><a href="{% url 'tools:tools_use' tools_name=tool.tools_name %}" class="text-inherit">{{ tool.tools_name }}</a></h5>
+                        <div class="small text-muted">
+                            <span>Organic</span>
+                            <span class="mx-1"><svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"
+                                    fill="#C1C7C6" class="bi bi-circle-fill align-middle " viewBox="0 0 16 16">
+                                    <circle cx="8" cy="8" r="8"></circle>
+                                </svg></span>
+                            <span>Groceries</span>
+                            <span class="mx-1"><svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"
+                                    fill="#C1C7C6" class="bi bi-circle-fill align-middle " viewBox="0 0 16 16">
+                                    <circle cx="8" cy="8" r="8"></circle>
+                                </svg></span>
+                            <span>Butcher Shop</span>
+                        </div>
+                        <div class="py-3">
+                            <ul class="list-unstyled mb-0 small">
+                                <li>Delivery
+                                </li>
+                                <li>Pickup available</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <!-- badge -->
+                            <div class="badge text-bg-light border">7.2 mi away</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

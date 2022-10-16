@@ -119,3 +119,20 @@ img{
     -moz-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
 }
+a {
+    text-decoration: none;
+    text-decoration: line-through;
+}
+
+.icon-shape {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+.icon-xl {
+    height: 13.5rem;
+    line-height: 13.5rem;
+    width: 13.5rem;
+}

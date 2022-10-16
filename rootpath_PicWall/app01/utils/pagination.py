@@ -22,7 +22,7 @@ def prettylist(request):
     {% end for %}
     
     <ul class='pagination'>
-        {{ page_string}}
+        {{ page_string }}
     </ul>
 
 """
