@@ -1,1 +1,6 @@
 *.zip
+rootpath_tools/
+*rootpath_tools/*
+media/
+media/*
+/media/*
