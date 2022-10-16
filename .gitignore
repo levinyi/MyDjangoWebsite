@@ -1,6 +1,10 @@
 *.zip
 rootpath_tools/
 *rootpath_tools/*
+<<<<<<< HEAD
 media/
 media/*
 /media/*
+=======
+rootpath_PicWall/media/*
+>>>>>>> new

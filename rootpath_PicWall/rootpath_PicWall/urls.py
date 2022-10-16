@@ -80,7 +80,10 @@ urlpatterns = [
     path('account/', include('account.urls', namespace='account')),
     path('image/',   include('image.urls', namespace='image')),
     path('SeqData/', include('seqData.urls', namespace="data")),
+<<<<<<< HEAD
     path('course/', include('course.urls', namespace="course")),
+=======
+>>>>>>> new
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
