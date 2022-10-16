@@ -44,10 +44,8 @@ INSTALLED_APPS = [
     'account',
     'image',
     'seqData',
-<<<<<<< HEAD
     'course',
-=======
->>>>>>> new
+
 ]
 
 MIDDLEWARE = [
