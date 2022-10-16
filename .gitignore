@@ -1,3 +1,4 @@
 *.zip
 rootpath_tools/
 *rootpath_tools/*
+rootpath_PicWall/media/*
