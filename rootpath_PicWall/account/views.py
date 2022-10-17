@@ -1,3 +1,4 @@
+from wsgiref.util import request_uri
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login
@@ -90,3 +91,7 @@ def myself_edit(request):
 
 def test(request):
     return render(request, 'account/test.html')
+
+@login_required(login_url='/account/login/')
+def management(request):
+    return render(request, 'manage/management.html')
