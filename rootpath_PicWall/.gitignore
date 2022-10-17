@@ -2,3 +2,4 @@ app02/tools/*
 media/files/*
 static/plugins
 *__pycache__/
+rootpath_PicWall/app02/*
