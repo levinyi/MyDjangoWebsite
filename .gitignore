@@ -1,4 +1,5 @@
 *.zip
+*.xlsx
 rootpath_tools/
 *rootpath_tools/*
 media/
@@ -6,3 +7,4 @@ media/*
 /media/*
 rootpath_PicWall/app02/tools/*
 rootpath_PicWall/media/*
+
