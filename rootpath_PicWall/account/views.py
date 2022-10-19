@@ -1,4 +1,3 @@
-from wsgiref.util import request_uri
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login
@@ -7,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from .models import UserProfile, UserInfo
-from .forms import LoginForm, RegistrationForm, UserProfileForm, UserForm, UserInfoForm
+from .forms import RegistrationForm, UserProfileForm, UserForm, UserInfoForm
 
 
 # Create your views here.
