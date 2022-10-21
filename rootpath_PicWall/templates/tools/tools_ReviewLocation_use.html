@@ -8,39 +8,42 @@
 
 {% block content %}
 <div class="container">
-    <div class="row pt-3">
-        <div class="col">
-            <h3 class="panel-title">Project of {{ tools_name }} Utilities</h3>
+    <div class="row form-control mt-1">
+        <div class="row pt-2">
+            <div class="col">
+                <h3 class="panel-title">Tools of {{ tools_name }} Usage</h3>
+            </div>
+        </div>
+        <div class="row  pt-2">
+            <div class="col">
+                <h6 class="col-md">
+                    <p>介绍：</p>
+                    <p style="text-indent:2em;">该工具是一个将Sanger分析结果产生的sum.txt文件，通过特定筛选和检索生成4个96孔板位置信息的网页工具。</p>
+                </h6>
+                <h6 class="col-md">
+                    <p>筛选条件：</p>
+                    <p style="text-indent:2em;">1. #ident == 100</p>
+                    <p style="text-indent:2em;">2. #ref_vs_al == TRUE</p>
+                    <p style="text-indent:2em;">3. select lower #D40, if #ref is duplicated. </p>
+                    <img src="/static/img/ReviewLocation.UsePage.png" alt="">
+                </h6>
+            </div>
         </div>
     </div>
-    <div class="row  pt-3">
-        <div class="col">
-            <h4 class="col-md">
-                <p>介绍：</p>
-                <p style="text-indent:2em;">该工具是一个将Sanger分析结果产生的sum.txt文件，通过特定筛选和检索生成4个96孔板位置信息的网页工具。</p>
-            </h4>
-            <h4 class="col-md">
-                <p>筛选条件：</p>
-                <p style="text-indent:2em;">1. #ident == 100</p>
-                <p style="text-indent:2em;">2. #ref_vs_al == TRUE</p>
-                <p style="text-indent:2em;">3. select lower #D40, if #ref is duplicated. </p>
-                <img src="/static/img/ReviewLocation.UsePage.png" alt="">
-            </h4>
-        </div>
+    <div class="row form-control mt-3">
+        <!-- Form -->
+        <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="md-4">
+                <label for="formFileLg" class="form-label">输入文件 (sum.txt)
+                    <a href="/media/files/tools_example/project_{{ tools_name }}/sum.txt"
+                        download="sum.txt">点击下载查看样例</a></label>
+                <input type="file" class="form-control form-control-lg" required="required" name="file_name1" />
+            </div>
+            <div class="col-xs-7 pt-3">
+                <button type="submit" class="btn btn-primary btn-lg">开始</button>
+            </div>
+        </form>
     </div>
-    <!-- Form -->
-    <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
-        <div class="md-4">
-            <h4>>Start To Use</h4>
-            <label for="formFileLg" class="form-label">输入文件 (sum.txt)
-                <a href="/media/files/tools_example/project_{{ tools_name }}/sum.txt"
-                    download="sum.txt">点击下载查看样例</a></label>
-            <input type="file" class="form-control form-control-lg" required="required" name="file_name1" />
-        </div>
-        <div class="col-xs-7 pt-3">
-            <button type="submit" class="btn btn-primary btn-lg">开始</button>
-        </div>
-    </form>
 </div>
 
 </div>

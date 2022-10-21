@@ -32,15 +32,10 @@
 </section>
 
 <section class="mt-6 ">
-    <div class="container border">
-        <!-- form of input -->
+    <div class="container form-control">
         <div class="row">
             <div class="col-12">
-                <!-- cta -->
-                <div class="mb-8">
-                    <!-- heading -->
-                    <h3 class="mb-0">添加新数据</h3>
-                </div>
+                <div class="mb-1 pt-2"><h3>添加新数据</h3></div>
             </div>
 
             <div class="col-12">
@@ -137,7 +132,7 @@
                     if (res.status) {
                         alert('添加成功');
                         // 用JS实现页面的刷新
-                        // location.reload();
+                        location.reload();
                     } else {
                         $.each(res.error, function (name, data) {
                             // console.log(name, data);
