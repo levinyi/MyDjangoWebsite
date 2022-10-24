@@ -7,7 +7,7 @@
         <h1>{{ course.title }}</h1>
         <p>课程内容列表</p>
         <form action="." method="post" class="form-control">{% csrf_token %}
-            <input type="button" onclick="start_learn({{course.id}})" value="Try my best to
+            <input type="button" onclick="start_learn({{ course.id }})" value="Try my best to
             learn the course">
         </form>
     </div>
