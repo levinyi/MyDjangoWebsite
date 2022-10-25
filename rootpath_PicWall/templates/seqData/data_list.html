@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} DATA LIST
-{% endblock %}
+{% block title %} Data list{% endblock %}
 {% block extra_head %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/my.tmp.css' %}">
 {% endblock %}
@@ -75,7 +74,7 @@
                 <tbody>
                     {% for obj in queryset %}
                     <tr>
-                        <th scope="row">{{ obj.id }}</th>
+                        <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ obj.data_path }}</td>
                         <td>{{ obj.area }}</td>
                         <td>{{ obj.company }}</td>

@@ -36,11 +36,11 @@ def update(request):
 
     for each in data_list:
         if each.startswith(str(now_year)) and each.endswith("Result"):
-            """诺和的数据格式"""
+            """NO的数据格式"""
             bucket_path = models.CompanyInfo.objects.get(name="诺和").bucket
             company = models.CompanyInfo.objects.get(name="诺和")
         elif each.startswith("GZCYYX"):
-            """明码生物的数据格式"""
+            """mm的数据格式"""
                 # models.Data.objects.create(data_path=data_path, area="华北",company="诺和", ctime=time.strftime("%Y-%m-%d",time.localtime(os.path.getctime(data_path))))
             bucket_path = models.CompanyInfo.objects.get(name="明码生物").bucket
             company = models.CompanyInfo.objects.get(name="明码生物")
