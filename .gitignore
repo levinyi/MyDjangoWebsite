@@ -6,3 +6,4 @@ rootpath_PicWall/app02/tools/*
 rootpath_PicWall/media/*
 rootpath_PicWall/rootpath_PicWall/settings.py
 *config
+*.pyc
