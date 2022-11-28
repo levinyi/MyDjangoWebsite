@@ -40,18 +40,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
-                {% for field in form %}
-                <div class="col-12 mb-3 mt-6">
-                    <label class="form-label">{{ field.label }}</label>
-                    {{ field }}
-                    <span class="error-msg" style="color:red; position: absolute;">{{ field.errors.0 }}</span>
+            <form id="formAdd">
+                <div class="col-12">
+                    {% for field in form %}
+                    <div class="col-12 mb-3 mt-6">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        <span class="error-msg" style="color:red; position: absolute;">{{ field.errors.0 }}</span>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
-            <div class="col col-xs-7 mb-3 mt-6">
-                <button id="btnAdd" type="button" class="btn btn-primary btn-lg">添加新数据</button>
-            </div>
+                <div class="col col-xs-7 mb-3 mt-6">
+                    <button id="btnAdd" type="button" class="btn btn-primary btn-lg">添加新数据</button>
+                </div>
+            </form>
         </div>
     </div>
 </section>
