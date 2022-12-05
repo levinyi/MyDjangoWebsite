@@ -3,33 +3,37 @@
 
 {% block content %}
 <div class="container">
-    <div class="row pt-3">
+    <div class="row pt-3 mt-3 form-control">
         <div class="col">
             <h3 class="panel-title">Tools of {{ tools_name }} Usage</h3>
+            <p>...</p>
         </div>
     </div>
-    <!-- Form -->
-    <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
-        <div class="mb-4">
-            <label for="formFileLg" class="form-label">input文件
-                <a href="/media/files/tools_example/pyxls/test.input.xlsx"
-                    download="test.input.xlsx">点击下载查看样例</a></label>
-            <input class="form-control form-control-lg" type="file" id="formFile" name="labRecord_file">
-        </div>
-        <div class="mb-4">
-            <label for="formFileLg" class="form-label">孔板浓度信息文件
-                <a href="/media/files/tools_example/pyxls/test.384wells.xlsx" download="test.384wells.xlsx">点击下载查看样例</a>
-            </label>
-            <input class="form-control form-control-lg" id="formFileLg" type="file" name="well_file">
-        </div>
-        <div class="col-auto mb-3">
-            <label for="" class="form-label">总体积</label>
-            <input type="text" class="form-control" placeholder="40000000000" name="total_volume" required="required"/>
-        </div>
-        <div class="col-xs-7 mb-3">
-            <button type="submit" class="btn btn-primary btn-lg">开始合并</button>
-        </div>
-    </form> 
-    <!-- end Form -->
+
+    <div class="row pt-3 mt-3 form-control">
+        <!-- Form -->
+        <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="mb-4">
+                <label for="formFileLg" class="form-label">input文件
+                    <a href="/media/files/tools_example/pyxls/test.input.xlsx"
+                        download="test.input.xlsx">点击下载查看样例</a></label>
+                <input class="form-control form-control-lg" type="file" id="formFile" name="labRecord_file">
+            </div>
+            <div class="mb-4">
+                <label for="formFileLg" class="form-label">孔板浓度信息文件
+                    <a href="/media/files/tools_example/pyxls/test.384wells.xlsx" download="test.384wells.xlsx">点击下载查看样例</a>
+                </label>
+                <input class="form-control form-control-lg" id="formFileLg" type="file" name="well_file">
+            </div>
+            <div class="col-auto mb-3">
+                <label for="" class="form-label">总体积</label>
+                <input type="text" class="form-control" placeholder="40000000000" name="total_volume" required="required"/>
+            </div>
+            <div class="col-xs-7 mb-3">
+                <button type="submit" class="btn btn-primary btn-lg">开始合并</button>
+            </div>
+        </form> 
+        <!-- end Form -->
+    </div>
 </div>
 {% endblock %}
