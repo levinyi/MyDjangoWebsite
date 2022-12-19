@@ -137,3 +137,12 @@ def plasmid_map(request):
     input_files.append(request.FILES.get("file_name"))
     input_files.append(request.FILES.get("file_name2"))
     return script_files, input_files
+
+
+def Sanger_data_upload(request):
+    """upload sanger data"""
+    script_files = ""
+    input_files = []
+    input_files.append(request.FILES.get("file_name1"))
+    input_files.append(request.FILES.get("file_name2"))
+    return script_files, input_files
