@@ -1,4 +1,5 @@
 import sys
+
 from Bio import SeqIO
 
 fasta = sys.argv[1]
