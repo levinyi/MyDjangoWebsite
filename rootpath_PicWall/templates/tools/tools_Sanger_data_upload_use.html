@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row form-control mt-3 pt-3">
+        <div class="col">
+            <h3 class="panel-title">Tools of {{ tools_name }} Usage</h3>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col">
+                <h5 class="panel-body">
+                    upload Sanger file, include 1st Sanger or 2nd Sanger file, 
+                    and a reference file. 
+                </h5>
+                <h5>(当前页面正在测试中，还不能正式使用)</h5>
+                <h5 class="panel-body">
+                    <br>
+                    Sanger与Re-Sanger分析步骤<br><br>
+                    数据的接收与处理（通常是YQ发来的zip）<br>
+                    统一数据格式：<br>
+                    第一次Sanger结果命名：【时间 + SW + 项目id + 1st_Sanger】共5个字段，用下划线分割。如：20221010_SW015_CR501001_1st_Sanger<br>
+                    第二次Sanger结果命名：【时间 + SW + 项目id + 2nd_Sanger】共5个字段，用下划线分割。如：20221017_SW015_CR501001_2nd_Sanger<br>
+                    注：第一次需携带index文件（即参考序列, 通常以*VCVatcc.txt结尾），在数据文件夹中新建index文件夹放置在里面。<br>
+                    第二次只需要提供sanger测序结果，无需index文件。<br><br>
+                    数据分析的路径：<br>
+                    接收的数据统一放在/cygene2/pipeline/Sanger/data 中，以上述格式存放。<br>
+                    数据分析Create index<br>
+                    如果为1st_Sanger，需要为参考序列文件构建index，进入index文件夹，使用下面的命名，替换到ref文件即可。<br>
+                    makeblastdb -in SW006_HC002007SP08_SACO_HC25b27_Merged_20220526_231708_HC27SP08_94TCRs_VCVatcc.txt -dbtype  nucl  -out SW006_HC002007SP08_SACO_HC25b27_Merged_20220526_231708_HC27SP08_94TCRs_VCVatcc.txt -parse_seqids<br>
+                    如果是re_sanger，直接复制/连接1st_Sanger中的index到本目录。分析流程选择<br>
+                    由于项目，或数据的要求会对流程做变更，更新后的流程放在：/cygene2/pipeline/Sanger/下，目前使用下面的流程：<br>
+                    1st_Sanger流程选用 ：/cygene2/pipeline/Sanger/Sanger.20220810<br>
+                    re_Sanger流程选用 ：/cygene2/pipeline/Sanger/Sanger.reseq.20220810<br><br>
+                    分析步骤：<br>
+                    详细步骤已经写在了流程中的run.md中，参考修改其中的index相关配置就能跑了。<br>
+                </h5>
+            </div>
+        </div>
+    </div>
+    <div class="row form-control mt-3 pt-3">
+        <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="mb-4 pt-3">
+                <label for="formFileLg" class="form-label">sanger file
+                    <a href="/media/files/tools_example/plasmid_map/SW015_CR501001_SACO_CR501001_Merged_20220918_123510_VCVatcc.txt"
+                        download="SW015_CR501001_SACO_CR501001_Merged_20220918_123510_VCVatcc.txt">点击下载查看样例</a></label>
+                <input class="form-control form-control" required="required" type="file" id="formFile"
+                    name="file_name1">
+            </div>
+
+            <div class="mb-4 pt-3">
+                <label for="formFileLg" class="form-label">reference file(VCVatcc.txt)
+                    <a href="/media/files/tools_example/Sanger_data_upload/SW018_SA501001TIL01_SP09_convCD4T_12TCRs_VCVatcc.txt"
+                        download="SW018_SA501001TIL01_SP09_convCD4T_12TCRs_VCVatcc.txt">点击下载查看样例</a></label>
+                <input class="form-control form-control" required="required" type="file" id="formFile"
+                    name="file_name2">
+            </div>
+
+            <div class="col-xs-7 mb-3">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
