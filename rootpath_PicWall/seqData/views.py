@@ -1,11 +1,16 @@
+import datetime
+import json
 import os
 import time
-import datetime
 
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import HttpResponse, redirect, render
+from django.views.decorators.csrf import csrf_exempt
+
 from seqData import models
+
 from .forms import DataModelForm
 from .utils.pagination import Pagination
+
 
 # Create your views here.
 def data_list(request):
@@ -41,7 +46,6 @@ def update(request):
             company = models.CompanyInfo.objects.get(name="诺和")
         elif each.startswith("GZCYYX"):
             """mm的数据格式"""
-                # models.Data.objects.create(data_path=data_path, area="华北",company="诺和", ctime=time.strftime("%Y-%m-%d",time.localtime(os.path.getctime(data_path))))
             bucket_path = models.CompanyInfo.objects.get(name="明码生物").bucket
             company = models.CompanyInfo.objects.get(name="明码生物")
         else:
@@ -55,8 +59,7 @@ def update(request):
             models.Data.objects.create(data_path=oss_path, area=area, company=company, ctime=ctime)
     return redirect('/SeqData/data-list/')
 
-import json
-from django.views.decorators.csrf import csrf_exempt
+
 @csrf_exempt
 def data_add(request):
     """添加数据"""
@@ -77,6 +80,7 @@ def data_delete(request, nid):
     """删除数据"""
     models.Data.objects.filter(id=nid).delete()
     return redirect("/SeqData/data-list/")
+
 
 def data_edit(request, nid):
     """编辑数据"""

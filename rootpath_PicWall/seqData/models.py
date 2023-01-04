@@ -1,7 +1,5 @@
-from random import choices
-from secrets import choice
-from tabnanny import verbose
 from django.db import models
+
 
 # Create your models here.
 class EndPoint(models.Model):

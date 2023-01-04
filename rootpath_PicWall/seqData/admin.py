@@ -1,8 +1,9 @@
 from django.contrib import admin
 
+from .models import CompanyInfo, Data, EndPoint
+
 # Register your models here.
 
-from .models import EndPoint, CompanyInfo, Data
 
 class EndPointAdmin(admin.ModelAdmin):
     list_display = ('name','endpoint',)
