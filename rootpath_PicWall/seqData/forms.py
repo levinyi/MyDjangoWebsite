@@ -48,9 +48,9 @@ class DataModelForm(BootStrapModelForm):
         now_year = str(datetime.datetime.now().year)
         print(now_year)
         # 检查一下dest_data_dir是否存在,如果不存在，则创建
-        dest_data_dir = os.path.join('/cygene2/data/', now_year)
+        dest_data_dir = os.path.join('/cygene4/data/', now_year)
         if not os.path.exists(dest_data_dir):
-            os.makedirs('/cygene2/data/' + now_year)
+            os.makedirs('/cygene4/data/' + now_year)
 
         # download from background.
         # 根据用户输入的area 从Endpoint数据库中获取 endpoint 
@@ -59,8 +59,6 @@ class DataModelForm(BootStrapModelForm):
         print("endpoint: ", endpoint)
 
         # 根据用户选择的company 从CompanyInfo数据库中查询出 endpoint，keyID, keySecret
-
-        # 验证 用户输入的endpoint和查询到的company已有的endpoint是否一致，不一致，怎么办？？？？
         company = self.cleaned_data['company']
         keyid = models.CompanyInfo.objects.get(name=company).KeyID
         keysecret = models.CompanyInfo.objects.get(name=company).KeySecret
