@@ -1,0 +1,80 @@
+*** Starting uWSGI 2.0.18-debian (64bit) on [Thu Apr 27 18:53:46 2023] ***
+compiled with version: 10.0.1 20200405 (experimental) [master revision 0be9efad938:fcb98e4978a:705510a708d3642c9c962beb663c476167e4e8a4] on 11 April 2020 11:15:55
+os: Linux-5.4.0-147-generic #164-Ubuntu SMP Tue Mar 21 14:23:17 UTC 2023
+nodename: cygene
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 72
+current working directory: /home/dushiyi/my_web/rootpath_PicWall
+writing pidfile to uwsgi/uwsgi.pid
+detected binary path: /usr/bin/uwsgi-core
+chdir() to /home/dushiyi/my_web/rootpath_PicWall
+your processes number limit is 2062219
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address :9000 fd 3
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 364600 bytes (356 KB) for 4 cores
+*** Operational MODE: preforking ***
+*** no app loaded. going in full dynamic mode ***
+*** uWSGI is running in multiple interpreter mode ***
+!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!
+no request plugin is loaded, you will not be able to manage requests.
+you may need to install the package for your language of choice, or simply load it with --plugin.
+!!!!!!!!!!! END OF WARNING !!!!!!!!!!
+spawned uWSGI master process (pid: 4094337)
+spawned uWSGI worker 1 (pid: 4094338, cores: 1)
+spawned uWSGI worker 2 (pid: 4094339, cores: 1)
+spawned uWSGI worker 3 (pid: 4094340, cores: 1)
+spawned uWSGI worker 4 (pid: 4094341, cores: 1)
+SIGINT/SIGQUIT received...killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+worker 3 buried after 1 seconds
+worker 4 buried after 1 seconds
+goodbye to uWSGI.
+VACUUM: pidfile removed.
+*** Starting uWSGI 2.0.18-debian (64bit) on [Thu Apr 27 18:56:37 2023] ***
+compiled with version: 10.0.1 20200405 (experimental) [master revision 0be9efad938:fcb98e4978a:705510a708d3642c9c962beb663c476167e4e8a4] on 11 April 2020 11:15:55
+os: Linux-5.4.0-147-generic #164-Ubuntu SMP Tue Mar 21 14:23:17 UTC 2023
+nodename: cygene
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 72
+current working directory: /home/dushiyi/my_web/rootpath_PicWall
+writing pidfile to uwsgi/uwsgi.pid
+detected binary path: /usr/bin/uwsgi-core
+chdir() to /home/dushiyi/my_web/rootpath_PicWall
+your processes number limit is 2062219
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address :9000 fd 3
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 364600 bytes (356 KB) for 4 cores
+*** Operational MODE: preforking ***
+*** no app loaded. going in full dynamic mode ***
+*** uWSGI is running in multiple interpreter mode ***
+!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!
+no request plugin is loaded, you will not be able to manage requests.
+you may need to install the package for your language of choice, or simply load it with --plugin.
+!!!!!!!!!!! END OF WARNING !!!!!!!!!!
+spawned uWSGI master process (pid: 4094691)
+spawned uWSGI worker 1 (pid: 4094692, cores: 1)
+spawned uWSGI worker 2 (pid: 4094693, cores: 1)
+spawned uWSGI worker 3 (pid: 4094694, cores: 1)
+spawned uWSGI worker 4 (pid: 4094695, cores: 1)
+SIGINT/SIGQUIT received...killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+worker 3 buried after 1 seconds
+worker 4 buried after 1 seconds
+goodbye to uWSGI.
+VACUUM: pidfile removed.

@@ -22,10 +22,9 @@
                     统一数据格式：<br>
                     第一次Sanger结果命名：【时间 + SW + 项目id + 1st_Sanger】共5个字段，用下划线分割。如：20221010_SW015_CR501001_1st_Sanger<br>
                     第二次Sanger结果命名：【时间 + SW + 项目id + 2nd_Sanger】共5个字段，用下划线分割。如：20221017_SW015_CR501001_2nd_Sanger<br>
-                    注：第一次需携带index文件（即参考序列, 通常以*VCVatcc.txt结尾），在数据文件夹中新建index文件夹放置在里面。<br>
-                    第二次只需要提供sanger测序结果，无需index文件。<br><br>
-                    数据分析的路径：<br>
-                    接收的数据统一放在/cygene2/pipeline/Sanger/data 中，以上述格式存放。<br>
+                    注：每次需携带index文件（即参考序列, 通常以*VCVatcc.txt结尾），在数据文件夹中新建index文件夹放置在里面。<br>
+                    第二次测序也需要提供index文件。<br><br>
+                    <br>
                     数据分析Create index<br>
                     如果为1st_Sanger，需要为参考序列文件构建index，进入index文件夹，使用下面的命名，替换到ref文件即可。<br>
                     makeblastdb -in SW006_HC002007SP08_SACO_HC25b27_Merged_20220526_231708_HC27SP08_94TCRs_VCVatcc.txt -dbtype  nucl  -out SW006_HC002007SP08_SACO_HC25b27_Merged_20220526_231708_HC27SP08_94TCRs_VCVatcc.txt -parse_seqids<br>
