@@ -1,0 +1,63 @@
+[2023-04-30 14:32:07,780: INFO/MainProcess] Task tools.tasks.execute_script_and_package[27f943ea-6e17-4efa-ae9b-e16372442319] received
+[2023-04-30 14:32:07,783: WARNING/ForkPoolWorker-63] Executing execute_script_and_package task
+[2023-04-30 14:32:07,789: WARNING/ForkPoolWorker-63] python3 /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload.py test_project_test_test /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/test_CV501005_2nd_sanger_add.zip /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/SW026_CV501005_SP01_SACO_AssembledCDR3J_CV501005_IDmodified_45TCRs_VCVatcc.txt /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results
+[2023-04-30 14:32:53,580: INFO/ForkPoolWorker-63] Task tools.tasks.execute_script_and_package[27f943ea-6e17-4efa-ae9b-e16372442319] succeeded in 45.7971438789973s: None
+[2023-04-30 14:49:01,821: INFO/MainProcess] Task tools.tasks.execute_script_and_package[797166ef-60a6-4f30-b38c-deb05064f3a0] received
+[2023-04-30 14:49:01,823: WARNING/ForkPoolWorker-63] Executing execute_script_and_package task
+[2023-04-30 14:49:01,830: WARNING/ForkPoolWorker-63] python3 /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload.py test_project_test_test /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/test_CV501005_2nd_sanger_add.zip /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/SW026_CV501005_SP01_SACO_AssembledCDR3J_CV501005_IDmodified_45TCRs_VCVatcc.txt /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results
+[2023-04-30 14:49:47,493: INFO/ForkPoolWorker-63] Task tools.tasks.execute_script_and_package[797166ef-60a6-4f30-b38c-deb05064f3a0] succeeded in 45.669234296976356s: None
+[2023-04-30 15:02:31,562: DEBUG/MainProcess] | Worker: Preparing bootsteps.
+[2023-04-30 15:02:31,563: DEBUG/MainProcess] | Worker: Building graph...
+[2023-04-30 15:02:31,563: DEBUG/MainProcess] | Worker: New boot order: {Beat, StateDB, Timer, Hub, Pool, Autoscaler, Consumer}
+[2023-04-30 15:02:31,566: DEBUG/MainProcess] | Consumer: Preparing bootsteps.
+[2023-04-30 15:02:31,566: DEBUG/MainProcess] | Consumer: Building graph...
+[2023-04-30 15:02:31,630: DEBUG/MainProcess] | Consumer: New boot order: {Connection, Events, Heart, Mingle, Gossip, Tasks, Control, Agent, event loop}
+[2023-04-30 15:02:31,681: WARNING/MainProcess] /usr/local/lib/python3.8/dist-packages/celery/app/utils.py:204: CDeprecationWarning: 
+    The 'CELERY_RESULT_BACKEND' setting is deprecated and scheduled for removal in
+    version 6.0.0. Use the result_backend instead
+
+  deprecated.warn(description=f'The {setting!r} setting',
+
+[2023-04-30 15:02:31,681: WARNING/MainProcess] Please run `celery upgrade settings path/to/settings.py` to avoid these warnings and to allow a smoother upgrade to Celery 6.0.
+[2023-04-30 15:02:31,681: DEBUG/MainProcess] | Worker: Starting Hub
+[2023-04-30 15:02:31,681: DEBUG/MainProcess] ^-- substep ok
+[2023-04-30 15:02:31,681: DEBUG/MainProcess] | Worker: Starting Pool
+[2023-04-30 15:02:34,435: DEBUG/MainProcess] ^-- substep ok
+[2023-04-30 15:02:34,436: DEBUG/MainProcess] | Worker: Starting Consumer
+[2023-04-30 15:02:34,436: DEBUG/MainProcess] | Consumer: Starting Connection
+[2023-04-30 15:02:34,442: INFO/MainProcess] Connected to redis://192.168.2.185:6379/0
+[2023-04-30 15:02:34,443: DEBUG/MainProcess] ^-- substep ok
+[2023-04-30 15:02:34,443: DEBUG/MainProcess] | Consumer: Starting Events
+[2023-04-30 15:02:34,444: DEBUG/MainProcess] ^-- substep ok
+[2023-04-30 15:02:34,444: DEBUG/MainProcess] | Consumer: Starting Heart
+[2023-04-30 15:02:34,445: DEBUG/MainProcess] ^-- substep ok
+[2023-04-30 15:02:34,445: DEBUG/MainProcess] | Consumer: Starting Mingle
+[2023-04-30 15:02:34,445: INFO/MainProcess] mingle: searching for neighbors
+[2023-04-30 15:02:35,452: INFO/MainProcess] mingle: all alone
+[2023-04-30 15:02:35,452: DEBUG/MainProcess] ^-- substep ok
+[2023-04-30 15:02:35,452: DEBUG/MainProcess] | Consumer: Starting Gossip
+[2023-04-30 15:02:35,457: DEBUG/MainProcess] ^-- substep ok
+[2023-04-30 15:02:35,457: DEBUG/MainProcess] | Consumer: Starting Tasks
+[2023-04-30 15:02:35,464: DEBUG/MainProcess] ^-- substep ok
+[2023-04-30 15:02:35,464: DEBUG/MainProcess] | Consumer: Starting Control
+[2023-04-30 15:02:35,467: DEBUG/MainProcess] ^-- substep ok
+[2023-04-30 15:02:35,467: DEBUG/MainProcess] | Consumer: Starting event loop
+[2023-04-30 15:02:35,467: DEBUG/MainProcess] | Worker: Hub.register Pool...
+[2023-04-30 15:02:35,470: WARNING/MainProcess] /usr/local/lib/python3.8/dist-packages/celery/fixups/django.py:203: UserWarning: Using settings.DEBUG leads to a memory
+            leak, never use this setting in production environments!
+  warnings.warn('''Using settings.DEBUG leads to a memory
+
+[2023-04-30 15:02:35,470: INFO/MainProcess] celery@cygene ready.
+[2023-04-30 15:02:35,471: DEBUG/MainProcess] basic.qos: prefetch_count->288
+[2023-04-30 15:04:11,267: INFO/MainProcess] Task tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8] received
+[2023-04-30 15:04:11,268: DEBUG/MainProcess] TaskPool: Apply <function fast_trace_task at 0x7fa800f16c10> (args:('tools.tasks.execute_script_and_package', 'd6a7ef18-1d1b-43bf-8191-e9338adb4bb8', {'lang': 'py', 'task': 'tools.tasks.execute_script_and_package', 'id': 'd6a7ef18-1d1b-43bf-8191-e9338adb4bb8', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'd6a7ef18-1d1b-43bf-8191-e9338adb4bb8', 'parent_id': None, 'argsrepr': "('/home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results', 'python3 /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload.py test_project_test_test', ['/home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/test_CV501005_2nd_sanger_add.zip', '/home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/SW025_CV501006_SP01_SACO_AssembledCDR3J_CV501006_36TCRs_VCVatcc.txt'], '0720df64-30ba-4470-bbf7-b95a55ef38f6',... kwargs:{})
+[2023-04-30 15:04:11,270: WARNING/ForkPoolWorker-63] Executing execute_script_and_package task
+[2023-04-30 15:04:11,282: INFO/ForkPoolWorker-63] tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8]: python3 /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload.py test_project_test_test /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/test_CV501005_2nd_sanger_add.zip /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/SW025_CV501006_SP01_SACO_AssembledCDR3J_CV501006_36TCRs_VCVatcc.txt /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results
+[2023-04-30 15:04:56,497: INFO/ForkPoolWorker-63] tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8]: result_path: /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results for loop in here.
+[2023-04-30 15:04:56,498: INFO/ForkPoolWorker-63] tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8]: packge: het.txt
+[2023-04-30 15:04:56,499: INFO/ForkPoolWorker-63] tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8]: zip_file.write(/home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/het.txt, het.txt)
+[2023-04-30 15:04:56,499: INFO/ForkPoolWorker-63] tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8]: packge: sum.txt
+[2023-04-30 15:04:56,499: INFO/ForkPoolWorker-63] tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8]: zip_file.write(/home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/sum.txt, sum.txt)
+[2023-04-30 15:04:56,499: INFO/ForkPoolWorker-63] tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8]: packge: SW025_CV501006_SP01_SACO_AssembledCDR3J_CV501006_36TCRs_VCVatcc.txt
+[2023-04-30 15:04:56,500: INFO/ForkPoolWorker-63] tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8]: zip_file.write(/home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results/SW025_CV501006_SP01_SACO_AssembledCDR3J_CV501006_36TCRs_VCVatcc.txt, SW025_CV501006_SP01_SACO_AssembledCDR3J_CV501006_36TCRs_VCVatcc.txt)
+[2023-04-30 15:04:56,514: INFO/ForkPoolWorker-63] Task tools.tasks.execute_script_and_package[d6a7ef18-1d1b-43bf-8191-e9338adb4bb8] succeeded in 45.245278527989285s: None

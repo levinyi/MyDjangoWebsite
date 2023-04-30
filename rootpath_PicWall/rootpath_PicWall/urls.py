@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 # from app01.views import account,depart,pretty,user, admin, task
 from app02.views import data, tools
+# from websocket_example.urls import websocket_urlpatterns
 
 urlpatterns = [
     path('admin/', adm.site.urls),
@@ -82,6 +83,8 @@ urlpatterns = [
     path('SeqData/', include('seqData.urls', namespace="data")),
     path('course/', include('course.urls', namespace="course")),
 
+    #### websocket
+    # path('websocket/', include(websocket_urlpatterns)),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
