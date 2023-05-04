@@ -64,7 +64,7 @@ def update(request):
 def data_add(request):
     """添加数据"""
     # 从ajax请求中获取的数据在request.post中就能得到
-    print("request.POST:", request.POST)
+    # print("request.POST:", request.POST)
 
     form = DataModelForm(data = request.POST)
     if form.is_valid():

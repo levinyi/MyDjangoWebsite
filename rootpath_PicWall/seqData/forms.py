@@ -37,7 +37,7 @@ class DataModelForm(BootStrapModelForm):
     # 校验数据是否存在
     def clean_data_path(self):
         txt_data_path = self.cleaned_data['data_path']
-        print("txt_data_path: ", txt_data_path)
+        # print("txt_data_path: ", txt_data_path)
         exists = models.Data.objects.filter(data_path=txt_data_path).exists()
         if exists:
             raise ValidationError("路径已经存在")
@@ -46,7 +46,7 @@ class DataModelForm(BootStrapModelForm):
 
         # 保险起见，验证一下dest_data_dir是否是今年，如果不是，则抛出异常
         now_year = str(datetime.datetime.now().year)
-        print(now_year)
+        # print(now_year)
         # 检查一下dest_data_dir是否存在,如果不存在，则创建
         dest_data_dir = os.path.join('/cygene4/data/', now_year)
         if not os.path.exists(dest_data_dir):
@@ -56,7 +56,7 @@ class DataModelForm(BootStrapModelForm):
         # 根据用户输入的area 从Endpoint数据库中获取 endpoint 
         area = self.cleaned_data['area']
         endpoint = models.EndPoint.objects.get(name=area).endpoint
-        print("endpoint: ", endpoint)
+        # print("endpoint: ", endpoint)
 
         # 根据用户选择的company 从CompanyInfo数据库中查询出 endpoint，keyID, keySecret
         company = self.cleaned_data['company']
@@ -65,6 +65,6 @@ class DataModelForm(BootStrapModelForm):
 
         os.system('nohup /cygene/software/ossutil64 cp {} {} -r -f --jobs 3 --parallel 10 --access-key-secret {} --access-key-id {} --endpoint {} >{}/nohup.out 2>{}/nohup.err &'.format(
             txt_data_path, dest_data_dir, keysecret, keyid, endpoint, dest_data_dir, dest_data_dir))
-        print('nohup /cygene/software/ossutil64 cp {} {} -r -f --jobs 3 --parallel 10 --access-key-secret {} --access-key-id {} --endpoint {} >{}/nohup.out 2>{}/nohup.err &'.format(
-            txt_data_path, dest_data_dir, keysecret, keyid, endpoint, dest_data_dir, dest_data_dir))
+        # print('nohup /cygene/software/ossutil64 cp {} {} -r -f --jobs 3 --parallel 10 --access-key-secret {} --access-key-id {} --endpoint {} >{}/nohup.out 2>{}/nohup.err &'.format(
+        #        txt_data_path, dest_data_dir, keysecret, keyid, endpoint, dest_data_dir, dest_data_dir))
         return txt_data_path
