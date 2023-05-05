@@ -7,3 +7,5 @@ rootpath_PicWall/media/*
 rootpath_PicWall/rootpath_PicWall/settings.py
 *config
 *.pyc
+*log
+*\.*
