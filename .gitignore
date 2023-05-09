@@ -8,4 +8,5 @@ rootpath_PicWall/rootpath_PicWall/settings.py
 *config
 *.pyc
 *log
+rootpath_PicWall/*.log
 *\.*
