@@ -17,23 +17,20 @@
         <div class="row pt-3">
             <div class="col">
                 <h5 class="panel-body">
-                    <br>
-                    Sanger数据分析<br><br>
-                    &emsp;数据的接收与处理（接收sanger返回的zip文件，zip文件中不能有子文件夹）<br><br>
-                    
-                    项目名称：<br>
-                    &emsp;为你的项目提供一个可辨识，唯一的项目名称：举例如下：
-                    &emsp;20221010_SW015_CR501001_1st_Sanger<br><br>
-                    
-                    index文件：
-                    &emsp;每次需上传index文件（即参考序列fasta格式, 如*VCVatcc.txt）。<br>
-                    &emsp;第二次测序也需要提供index文件。<br><br>
-                    
-                    确保压缩文件格式真确：文件中只包含ab1，seq的文件，不能有子文件夹。
-                    仅支持 zip，rar两种压缩格式。<br><br>
-
-                    点击upload按钮会返回一个id，使用该id查看分析进度，完成后下载结果。
-                    <br>
+                    <br><br>
+                    Sanger数据分析
+                    <br><br>
+                    数据的接收与处理：接收来自Sanger测序的zip文件，确保文件中没有子文件夹。
+                    <br><br>
+                    项目名称：为项目提供一个可辨识且唯一的名称，例如 "20221010_SW015_CR501001_1st_Sanger"。
+                    <br><br>
+                    index文件：每次上传都需要提供参考序列的fasta格式的index文件，例如 "*VCVatcc.txt"。即使是第二次测序，也需要提供index文件。
+                    <br><br>
+                    压缩文件格式要求：确保压缩文件格式正确，文件中只包含ab1和seq格式的文件，不能有子文件夹。支持的压缩格式有zip和rar。确保压缩文件格式正确：文件中只包含ab1，seq的文件，不能有子文件夹。
+                    <br><br>
+                    点击"upload"按钮后会返回一个ID，使用该ID可以查看分析进度，并在分析完成后下载结果。
+                    <br><br>
+                    查看结果状态：<a href="{% url 'tools:check_status' %}">以往状态查询</a>
                 </h5>
             </div>
         </div>
@@ -41,15 +38,17 @@
     <div class="row form-control mt-3 pt-3">
         <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
             <div class="mb-4 pt-3">
-                <label for="formFileLg" class="form-label">Sanger File(zip file)
-                    <a href="/media/files/tools_example/plasmid_map/SW015_CR501001_SACO_CR501001_Merged_20220918_123510_VCVatcc.txt"
+                <label for="formFileLg" class="form-label">Sanger File(zip/rar)
+                    <a href="/media/files/tools_example/Sanger_data_upload/1st_Sanger.rar"
                         download="SW015_CR501001_SACO_CR501001_Merged_20220918_123510_VCVatcc.txt">点击下载查看样例</a></label>
-                <input class="form-control form-control" required="required" type="file" id="formFile1"
-                    name="file_name1">
+                <input class="form-control form-control" required="required" type="file" id="zipFile"
+                    accept=".zip,.rar" name="file_name1">
+                <div id="progressBar" style="width: 0%; background-color: #4CAF50; height: 20px; margin-top: 10px;"></div>
+                <div id="uploadSpeed"></div>
             </div>
 
             <div class="mb-4 pt-3">
-                <label for="formFileLg" class="form-label">reference file(VCVatcc.txt)
+                <label for="formFileLg" class="form-label">reference file(VCVatcc.txt/fasta format)
                     <a href="/media/files/tools_example/Sanger_data_upload/SW018_SA501001TIL01_SP09_convCD4T_12TCRs_VCVatcc.txt"
                         download="SW018_SA501001TIL01_SP09_convCD4T_12TCRs_VCVatcc.txt">点击下载查看样例</a></label>
                 <input class="form-control form-control" required="required" type="file" id="formFile2"
@@ -58,7 +57,8 @@
 
             <div class="mb-4 pt-3">
                 <label for="" class="form-label">Project Name:</label>
-                <input type="text" class="form-control" placeholder="20221010_SW015_CR501001_1st_Sanger" name="project_name" required="required" />
+                <input type="text" class="form-control" placeholder="20221010_SW015_CR501001_1st_Sanger" 
+                    name="project_name" required="required" pattern="[^\s]+" title="Project Name should not contain spaces"/>
             </div>
             <div class="col-xs-7 mb-3">
                 <button type="submit" class="btn btn-primary" id="submitBtn">Upload</button>
@@ -70,6 +70,75 @@
                 {% endif %}
             </div>
         </form>
+        <div id="progressBarContainer" style="display: none;"><div id="progressBar"></div></div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#zipFile').change(function() {
+            var formData = new FormData();
+            formData.append('zipFile', $('#zipFile')[0].files[0]);
+
+            var startTime = new Date().getTime();  // 记录开始时间
+            var startBytes = 0;  // 记录已上传的字节数
+
+            $.ajax({
+                url: '/tools/upload', // 后端接收上传的URL
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(evt) {
+                        if (evt.lengthComputable) {
+                            var currentTime = new Date().getTime();
+                            var elapsedTime = (currentTime - startTime) / 1000;  // 已经过的时间（秒）
+                            var uploadedBytes = evt.loaded - startBytes;  // 已上传的字节数
+                            var uploadSpeed = uploadedBytes / elapsedTime;  // 上传速度（字节/秒）
+                            var uploadSpeedFormatted = formatFileSize(uploadSpeed) + '/s';  // 格式化后的上传速度
+
+                            var percentComplete = evt.loaded / evt.total * 100;
+                            var progressBarWidth = percentComplete + '%';
+                            var progressBarText = progressBarWidth + ' (' + uploadSpeedFormatted + ')';
+                            $('#progressBar').width(progressBarWidth).html(progressBarText);
+
+                            if (percentComplete >= 100) {
+                                var totalTime = (currentTime - startTime) / 1000;  // 总共用时（秒）
+                                $('#uploadSpeed').html('Upload Complete - Total Time: ' + formatTime(totalTime));
+                            }
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function(response) {
+                    // 上传完成后的处理逻辑
+                    $('#progressBar').width('100%').html('100%');
+                    $('#uploadSpeed').html('Upload Complete');
+                    alert('上传完成！');
+                }
+            });
+        });
+    });
+
+    function formatFileSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes === 0) {
+            return '0 Byte';
+        }
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    }
+
+    function formatTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        seconds = Math.round(seconds % 60);
+        return minutes + 'm ' + seconds + 's';
+    }
+</script>
+
 {% endblock %}

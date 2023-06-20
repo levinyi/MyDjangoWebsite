@@ -3,6 +3,12 @@
 
 {% block content %}
 <div class="container">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'tools:tools_list' %}">在线工具</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ tools_name }}</li>
+        </ol>
+    </nav>
     <div class="row form-control mt-3 pt-3">
         <div class="col">
             <h3 class="panel-title">Tools of {{ tools_name }} Usage</h3>
