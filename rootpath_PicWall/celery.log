@@ -180,3 +180,39 @@ tools.models.Result.DoesNotExist: Result matching query does not exist.
 [2023-06-12 16:31:18,206: DEBUG/MainProcess] | Consumer: Shutdown Events...
 [2023-06-12 16:31:18,206: DEBUG/MainProcess] | Consumer: Shutdown Connection...
 [2023-06-12 16:31:18,208: DEBUG/MainProcess] removing tasks from inqueue until task handler finished
+[2023-06-19 09:12:39,462: DEBUG/MainProcess] | Worker: Preparing bootsteps.
+[2023-06-19 09:12:39,464: DEBUG/MainProcess] | Worker: Building graph...
+[2023-06-19 09:12:39,464: DEBUG/MainProcess] | Worker: New boot order: {Timer, Hub, Pool, Autoscaler, Beat, StateDB, Consumer}
+[2023-06-19 09:12:39,473: DEBUG/MainProcess] | Consumer: Preparing bootsteps.
+[2023-06-19 09:12:39,473: DEBUG/MainProcess] | Consumer: Building graph...
+[2023-06-19 09:12:39,522: DEBUG/MainProcess] | Consumer: New boot order: {Connection, Events, Mingle, Tasks, Control, Gossip, Agent, Heart, event loop}
+[2023-06-19 09:12:39,576: DEBUG/MainProcess] | Worker: Starting Hub
+[2023-06-19 09:12:39,576: DEBUG/MainProcess] ^-- substep ok
+[2023-06-19 09:12:39,576: DEBUG/MainProcess] | Worker: Starting Pool
+[2023-06-19 09:12:42,308: DEBUG/MainProcess] ^-- substep ok
+[2023-06-19 09:12:42,308: DEBUG/MainProcess] | Worker: Starting Consumer
+[2023-06-19 09:12:42,308: DEBUG/MainProcess] | Consumer: Starting Connection
+[2023-06-19 09:12:42,319: INFO/MainProcess] Connected to redis://192.168.2.185:6379/0
+[2023-06-19 09:12:42,319: DEBUG/MainProcess] ^-- substep ok
+[2023-06-19 09:12:42,319: DEBUG/MainProcess] | Consumer: Starting Events
+[2023-06-19 09:12:42,323: DEBUG/MainProcess] ^-- substep ok
+[2023-06-19 09:12:42,323: DEBUG/MainProcess] | Consumer: Starting Mingle
+[2023-06-19 09:12:42,323: INFO/MainProcess] mingle: searching for neighbors
+[2023-06-19 09:12:43,336: INFO/MainProcess] mingle: all alone
+[2023-06-19 09:12:43,336: DEBUG/MainProcess] ^-- substep ok
+[2023-06-19 09:12:43,336: DEBUG/MainProcess] | Consumer: Starting Tasks
+[2023-06-19 09:12:43,343: DEBUG/MainProcess] ^-- substep ok
+[2023-06-19 09:12:43,343: DEBUG/MainProcess] | Consumer: Starting Control
+[2023-06-19 09:12:43,347: DEBUG/MainProcess] ^-- substep ok
+[2023-06-19 09:12:43,347: DEBUG/MainProcess] | Consumer: Starting Gossip
+[2023-06-19 09:12:43,351: DEBUG/MainProcess] ^-- substep ok
+[2023-06-19 09:12:43,351: DEBUG/MainProcess] | Consumer: Starting Heart
+[2023-06-19 09:12:43,353: DEBUG/MainProcess] ^-- substep ok
+[2023-06-19 09:12:43,353: DEBUG/MainProcess] | Consumer: Starting event loop
+[2023-06-19 09:12:43,353: DEBUG/MainProcess] | Worker: Hub.register Pool...
+[2023-06-19 09:12:43,357: WARNING/MainProcess] /usr/local/lib/python3.8/dist-packages/celery/fixups/django.py:203: UserWarning: Using settings.DEBUG leads to a memory
+            leak, never use this setting in production environments!
+  warnings.warn('''Using settings.DEBUG leads to a memory
+
+[2023-06-19 09:12:43,357: INFO/MainProcess] celery@cygene ready.
+[2023-06-19 09:12:43,358: DEBUG/MainProcess] basic.qos: prefetch_count->288
