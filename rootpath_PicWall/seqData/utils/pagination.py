@@ -72,7 +72,6 @@ class Pagination(object):
             end_page = self.total_page_count + 1
         else:
             # 数据库中的数据比较多,>11页.
-
             # 当前页小于5:
             if self.page <= self.plus:
                 start_page = 1
@@ -121,7 +120,7 @@ class Pagination(object):
         # 尾页
         self.query_dict.setlist(self.page_param,[self.total_page_count])
         page_str_list.append('<li class="page-item"><a class="page-link" href="?{}">尾页</a></li>'.format(self.query_dict.urlencode()))
-
+        """
         search_string = '''
                 <li class="page-item">
                     <form style="float: left; margin-left:-1px" method="get">
@@ -133,5 +132,6 @@ class Pagination(object):
                 </li>
         '''
         page_str_list.append(search_string)
+        """
         page_string = mark_safe("".join(page_str_list))
         return page_string
