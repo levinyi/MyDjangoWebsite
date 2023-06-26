@@ -9,16 +9,7 @@
             <li class="breadcrumb-item active" aria-current="page">{{ tools_name }}</li>
         </ol>
     </nav>
-    <div class="row form-control mt-3 pt-3">
-        <form id="task-result-form" action="{% url 'tools:check_status' %}" method="post">
-            {% csrf_token %}
-            <label for="task-id">唯一ID:</label>
-            <input type="text" name="unique_id" placeholder="Enter unique ID" required>
-            <button type="submit">Check Status</button>
-        </form>
-        <div id="result-container"></div>
-    </div>
-    <div class="row form-control mt-3 pt-3">
+    <div class="row pt-5">
         <table class="table table-striped table-hover table-bordered" style="text-align:center">
                 <thead>
                     <tr>
@@ -59,5 +50,8 @@
                 </tbody>
             </table>
     </div>
+    <nav aria-label="Page navigation example">
+        <ul class='pagination'>{{ page_string }}</ul>
+    </nav>
 </div>
 {% endblock %}
