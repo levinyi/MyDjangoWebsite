@@ -216,3 +216,11 @@ tools.models.Result.DoesNotExist: Result matching query does not exist.
 
 [2023-06-19 09:12:43,357: INFO/MainProcess] celery@cygene ready.
 [2023-06-19 09:12:43,358: DEBUG/MainProcess] basic.qos: prefetch_count->288
+[2023-06-26 19:11:49,663: INFO/MainProcess] Task tools.tasks.execute_script_and_package[0ee12cde-2bf6-4d8a-b65c-16b23941d219] received
+[2023-06-26 19:11:49,667: DEBUG/MainProcess] TaskPool: Apply <function fast_trace_task at 0x7f79c093cb80> (args:('tools.tasks.execute_script_and_package', '0ee12cde-2bf6-4d8a-b65c-16b23941d219', {'lang': 'py', 'task': 'tools.tasks.execute_script_and_package', 'id': '0ee12cde-2bf6-4d8a-b65c-16b23941d219', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '0ee12cde-2bf6-4d8a-b65c-16b23941d219', 'parent_id': None, 'argsrepr': "('192.168.12.185', '1ad79771-9ddd-4e34-bc4a-ddf9d4e6b57f', '/cygene4/pipeline/Sanger/data/20230626_AbCod01_384Plate04_Plasmid_validation/2130456629_2023-06-26_AbCode01_384Plate04_plasmid_validation.zip', '/cygene4/pipeline/Sanger/data/20230626_AbCod01_384Plate04_Plasmid_validation/AbCode01_REF_Seq_for_SangerAnalysis_YHY20230520.txt')", 'kwargsrepr': '{}', 'origin': 'gen1843411@cygene', 'ignore_result': False, 'properties': {'correlation_id': '0ee12cde-2bf6-4d8a-b65c-16b23941d219', 'reply_to': '9cda4ff2-d00e-38f7-8886-bdde31c64dac', 'delivery_mode': 2, 'delivery_info': {'exchange': '', 'routing_key': 'celery'},... kwargs:{})
+[2023-06-26 19:11:49,697: WARNING/ForkPoolWorker-63] debug:!!!!!!!!!!!!!!!!
+[2023-06-26 19:11:49,698: WARNING/ForkPoolWorker-63]  
+[2023-06-26 19:11:49,699: WARNING/ForkPoolWorker-63] /cygene4/pipeline/Sanger/data/20230626_AbCod01_384Plate04_Plasmid_validation/2130456629_2023-06-26_AbCode01_384Plate04_plasmid_validation.zip
+[2023-06-26 19:11:49,699: WARNING/ForkPoolWorker-63]  
+[2023-06-26 19:11:49,699: WARNING/ForkPoolWorker-63] /cygene4/pipeline/Sanger/data/20230626_AbCod01_384Plate04_Plasmid_validation/AbCode01_REF_Seq_for_SangerAnalysis_YHY20230520.txt
+[2023-06-26 19:13:34,895: INFO/ForkPoolWorker-63] Task tools.tasks.execute_script_and_package[0ee12cde-2bf6-4d8a-b65c-16b23941d219] succeeded in 105.22280664509162s: None
