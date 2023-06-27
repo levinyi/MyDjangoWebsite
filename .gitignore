@@ -10,3 +10,4 @@ rootpath_PicWall/rootpath_PicWall/settings.py
 *log
 rootpath_PicWall/*.log
 *\.*
+rootpath_PicWall/celery.log
