@@ -44,5 +44,7 @@ def execute_script_and_package(user_ip, unique_id, zip_file_path, ref_file_path)
     end_time = timezone.now()
     # .strftime("%Y-%m-%d %H:%M:%S")
     update_task_status('completed', unique_id, user_ip, end_time=end_time)
-
+    
+    # send message to user.
+    # sendMesage()
 
