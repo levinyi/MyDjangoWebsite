@@ -7,6 +7,7 @@ from django.core.files.base import ContentFile
 
 from .models import Tools, Result
 from .tasks import execute_script_and_package
+from seqData.utils.pagination import Pagination
 
 
 def tools_list(request):
@@ -22,20 +23,18 @@ def tools_use(request, tools_name):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     user_ip = request.META['REMOTE_ADDR']
     if request.method == "GET":
-        print("user_ip: {} is trying to use {} tools!".format(user_ip, tools_name))
+        # print("user_ip: {} is trying to use {} tools!".format(user_ip, tools_name))
         return render(request, 'tools/tools_{}_use.html'.format(tools_name), {'tools_name': tools_name})
     elif request.method == "POST":
         result_path = get_result_path(BASE_DIR, tools_name)
         # 从地下定义的函数中返回script_files和input_files.
         script_files, input_files = globals()[tools_name](request)
         python_script = f"python3 {BASE_DIR}/rootpath_tools/project_{tools_name}/{tools_name}.py {script_files}"
-        print("result_path: ", result_path) # /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results
-        print("python_script: ", python_script) # python3 /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload.py 20230612_AbCode01_1stBatch_Plasmid_Plate10
-        print("input_files: ", input_files) # input_files:  [<TemporaryUploadedFile: Plate08.rar (application/octet-stream)>, <TemporaryUploadedFile: AbCode01_REF_Seq_for_SangerAnalysis_YHY20230520.txt (text/plain)>]
+        # print("result_path: ", result_path) # /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload_results
+        # print("python_script: ", python_script) # python3 /home/dushiyi/my_web/rootpath_PicWall/rootpath_tools/project_Sanger_data_upload/Sanger_data_upload.py 20230612_AbCode01_1stBatch_Plasmid_Plate10
+        # print("input_files: ", input_files) # input_files:  [<TemporaryUploadedFile: Plate08.rar (application/octet-stream)>, <TemporaryUploadedFile: AbCode01_REF_Seq_for_SangerAnalysis_YHY20230520.txt (text/plain)>]
         if tools_name == "Sanger_data_upload":
             unique_id = str(uuid.uuid4())
-            print("unique_id: ", unique_id) 
-            # return save_file_status(request, result_path, python_script, input_files, unique_id, user_ip)
             return save_file_status(request, user_ip, tools_name, unique_id, result_path)
         return save_file(request, result_path, python_script, input_files)
 
@@ -80,30 +79,16 @@ def save_file_status(request, user_ip, tools_name, unique_id, result_path):
     }
     return render(request, 'tools/tools_Sanger_data_upload_use.html', response_data)
 
-
 def check_status(request):
-    if request.method == "GET":
-        queryset = Result.objects.all().order_by("-id")
-        return render(request, 'tools/check_status.html', {"queryset":queryset})
+    # if request.method == "GET":
+    queryset = Result.objects.all().order_by("-id")
 
-    unique_id = request.POST.get('unique_id')
-    try:
-        result = Result.objects.get(unique_id=unique_id)
-        if result is None:
-            context = {
-                'error_message': f'Result with unique ID {unique_id} not found.'
-            }
-            return render(request, 'tools/check_status.html', context)
-        context = {
-            'result': result,
-            'download_available': result.status == "completed"
-        }
-        return render(request, 'tools/check_status.html', context)
-    except Result.DoesNotExist:
-        context = {
-            'error_message': f'Result with unique ID {unique_id} not found.'
-        }
-        return render(request, 'tools/check_status.html', context)
+    page_obj = Pagination(request, queryset, page_size=20, page_param="page", plus=5)
+    context = {
+        "queryset": page_obj.page_queryset,
+        "page_string": page_obj.html()
+    }
+    return render(request, 'tools/check_status.html', context)
 
 def download_result(request, unique_id):
     try:
