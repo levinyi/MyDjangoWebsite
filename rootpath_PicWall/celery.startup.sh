@@ -1,6 +1,10 @@
-# celery -A rootpath_PicWall worker --loglevel=info  --logfile=./celery.log  -D
-celery -A rootpath_PicWall worker --loglevel=DEBUG --logfile=./celery.log  -D
+# 后台执行
+celery -A mysite worker --loglevel=DEBUG --logfile=./celery.log -D
 
-# ps aux | grep 'celery'
-# kill <pid>
+# 查看是否执行
+ps aux |grep 'celery'
 
+# 终止任务
+kill <pid>
+
+# Note：前期开发阶段，最好前台使用，随时断开重启，修改了tasks.py之后最好重新启动一下： celery -A mysite worker
