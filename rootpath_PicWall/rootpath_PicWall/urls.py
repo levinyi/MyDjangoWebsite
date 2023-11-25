@@ -86,6 +86,9 @@ urlpatterns = [
     #### websocket
     # path('websocket/', include(websocket_urlpatterns)),
 
+    #### project_management
+    path('project_management/', include('project_management.urls', namespace="project_management")),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

@@ -1,6 +1,8 @@
 # 后台执行
-celery -A mysite worker --loglevel=DEBUG --logfile=./celery.log -D
-
+celery -A rootpath_PicWall worker --loglevel=DEBUG --logfile=./celery.log -D
+celery -A rootpath_PicWall worker --loglevel=INFO --logfile=./celery.log -D
+nohup celery -A rootpath_PicWall worker --loglevel=DEBUG --logfile=./celery.log -D > nohup.celery.out 2>&1 &
+celery -A rootpath_PicWall worker --loglevel=DEBUG --logfile=./celery.log -D > nohup.celery.out 2>&1 &
 # 查看是否执行
 ps aux |grep 'celery'
 

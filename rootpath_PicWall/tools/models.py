@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -26,9 +27,30 @@ class Result(models.Model):
     tools_name = models.CharField(max_length=255, null=True,blank=True)
     project_name = models.CharField(max_length=255,null=True, blank=True)
     result_path = models.CharField(max_length=255, null=True, blank=True)
+
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.unique_id
+
+class Inquiry(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    gene_number = models.IntegerField(null=True, blank=True)
+    validated_number = models.IntegerField(null=True, blank=True)
+    create_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=255, null=True, blank=True)
+
+
+class InquiryGeneSeqValidation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    inquiry_id = models.ForeignKey(Inquiry, on_delete=models.CASCADE, blank=True, null=True)
+    gene_name = models.CharField(max_length=255, null=True, blank=True)
+    seq5NC = models.TextField(null=True, blank=True)
+    seq3NC = models.TextField(null=True, blank=True)
+    seqAA = models.TextField(null=True, blank=True)
+    forbid_seq = models.CharField(max_length=255, null=True, blank=True)
+    combined_seq = models.TextField(null=True, blank=True)
+    saved_seq = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=255,blank=True, null=True)

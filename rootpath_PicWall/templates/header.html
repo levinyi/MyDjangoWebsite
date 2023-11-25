@@ -2,18 +2,18 @@
 <header class="p-3 bg-dark text-white">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                    <use xlink:href="#bootstrap"></use>
-                </svg>
+            <!-- Logo部分 -->
+            <a href="{% url 'home' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img src="{% static 'img/rootpath.logo.png' %}" alt="Logo"> <!-- 替换为您logo的路径 -->
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="{% url 'home' %}" class="nav-link px-2 text-secondary">Home</a></li>
                 <li><a href="{% url 'seqData:data_list' %}" class="nav-link px-2 text-white">数据管理</a></li>
                 {% comment %} <li><a href="{% url 'image:list_images' %}" class="nav-link px-2 text-white">图片管理</a></li>
-                <li><a href="{% url 'tools:tools_list' %}" class="nav-link px-2 text-white">项目管理</a></li> {% endcomment %}
+                {% endcomment %}
+                <li><a href="{% url 'project_management:product_list' %}" class="nav-link px-2 text-white">项目管理</a></li> 
                 <li><a href="{% url 'tools:tools_list' %}" class="nav-link px-2 text-white">在线工具</a></li>
-                <li><a href="{% url 'course:course_list' %}" class="nav-link px-2 text-white">知识库</a></li>
+                {% comment %} <li><a href="{% url 'course:course_list' %}" class="nav-link px-2 text-white">知识库</a></li> {% endcomment %}
             </ul>
 
             {% comment %} <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
