@@ -12,13 +12,23 @@
     <div class="row pt-3 form-control mt-3">
         <div class="col">
             <h3 class="panel-title">Tools of {{ tools_name }} Usage</h3>
-            <p>...</p>
+            <p>This tool is designed to split sequence data from either FASTA files or text/tab-separated files into individual files.</p>
+            <p>该工具用于将FASTA文件或文本/制表符分隔文件中的序列数据拆分为单个文件</p>
+            <p>The output files will be stored in a zip file.</p>
+            <p>Fasta format: </p>
+            <p> >seq1</p>
+            <p>ATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG</p>
+            <p> >seq2</p>
+            <p>ATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG</p>
+            <p> txt or tab format: </p>
+            <p> seq1 ATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG</p>
+            <p> seq2 ATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG</p>
         </div>
     </div>
     <div class="row form-control pt-4 mt-4">
         <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
             <div class="mb-4">
-                <label for="formFileLg" class="form-label">fasta文件 <a
+                <label for="formFileLg" class="form-label">fasta/txt file. <a
                         href="/media/files/tools_example/split_fasta/SW019_SA501001TIL01_SP06_SACO_Merged_20221202_010422_VCVatcc.txt"
                         download="SW019_SA501001TIL01_SP06_SACO_Merged_20221202_010422_VCVatcc.txt">点我查看样例</a></label>
                 <input class="form-control form-control-lg" type="file" required="required" id="formFile" name="file_name">

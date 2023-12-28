@@ -12,14 +12,14 @@ from project_management.models import GeneSynEnzymeCutSite
 from project_management.project_scripts.generate_REQIN import check_forbiden_seq
 
 from .models import Inquiry, InquiryGeneSeqValidation, Tools, Result
-from .tasks import execute_script_and_package
+from .tasks import execute_script_and_package, Multi_Frag_Sanger_main_task
 from seqData.utils.pagination import Pagination
 
 
 def tools_list(request):
     """数据列表"""
     # 去数据库中获取所有数据
-    tools = Tools.objects.all()
+    tools = Tools.objects.all().order_by("-tools_freq")
     return render(request, 'tools/list_tools.html', {'tools': tools})
 
 def get_result_path(BASE_DIR, tools_name):
@@ -37,12 +37,22 @@ def tools_use(request, tools_name):
         print("input_files: ", input_files)
         python_script = f"python3 {BASE_DIR}/rootpath_tools/project_{tools_name}/{tools_name}.py {script_files}"
         print("python_script: ", python_script)
+        
+        # 更新tools的使用频率
+        tools = Tools.objects.get(tools_name=tools_name)
+        tools.tools_freq += 1
+        tools.save()
+
         if tools_name == "Sanger_data_upload":
             unique_id = str(uuid.uuid4())
             return save_file_status(request, user_ip, tools_name, unique_id)
+        elif tools_name == "Multi_Frag_Sanger":
+            unique_id = str(uuid.uuid4())
+            return Multi_Frag_Sanger_main(request, user_ip, tools_name, unique_id)
         elif tools_name == "split_384_to_96":
             return split_384_to_96_main(result_path, input_files)
         return save_file(request, result_path, python_script, input_files)
+    
 
 def upload_file(file_name, project_path):
     # 去掉文件名中的空格,[],()
@@ -78,6 +88,37 @@ def save_file_status(request, user_ip, tools_name, unique_id):
     
     # 将文件分析任务加入异步任务队列
     execute_script_and_package.delay(user_ip, unique_id, zip_file_path, ref_file_path)
+
+    # 返回唯一标识符给用户
+    response_data = {
+        'unique_id': unique_id,
+        'check_available': "True",
+    }
+    return render(request, 'tools/tools_Sanger_data_upload_use.html', response_data)
+
+def Multi_Frag_Sanger_main(request, user_ip, tools_name, unique_id):
+    project_name = request.POST.get("project_name")
+    project_path = os.path.join("/cygene4/pipeline/Sanger/data", project_name)
+    # -- project_path: /cygene4/pipeline/Sanger/data/20230612_AbCode01_1stBatch_Plasmid_Plate10
+
+    zip_file = request.FILES["file_name1"]  # zip file
+    reference_file = request.FILES["file_name2"]  # fasta file
+
+    # 将用户上传的文件保存到 result_path目录下
+    zip_file_path = upload_file(zip_file, project_path)
+    ref_file_path = upload_file(reference_file, project_path)
+
+    result = Result.objects.create(
+        unique_id = unique_id,
+        tools_name = tools_name,
+        result_path = project_path,
+        user_ip= user_ip,
+        status='pending',
+        project_name = project_name
+    )
+    
+    # 将文件分析任务加入异步任务队列
+    Multi_Frag_Sanger_main_task.delay(user_ip, unique_id, zip_file_path, ref_file_path)
 
     # 返回唯一标识符给用户
     response_data = {
@@ -245,6 +286,14 @@ def plasmid_map(request):
     return script_files, input_files
 
 def Sanger_data_upload(request):
+    """2 input files and 1 argument ;upload sanger data"""
+    script_files = request.POST.get("project_name")
+    input_files = []
+    input_files.append(request.FILES.get("file_name1"))  # zip file
+    input_files.append(request.FILES.get("file_name2"))  # fasta file
+    return script_files, input_files
+
+def Multi_Frag_Sanger(request):
     """2 input files and 1 argument ;upload sanger data"""
     script_files = request.POST.get("project_name")
     input_files = []
