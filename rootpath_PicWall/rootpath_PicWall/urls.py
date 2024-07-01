@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 # from app01.views import account,depart,pretty,user, admin, task
-from app02.views import data, tools
+# from app02.views import data, tools
 # from websocket_example.urls import websocket_urlpatterns
 
 urlpatterns = [
@@ -62,18 +62,18 @@ urlpatterns = [
     # path('task/add/', task.task_add),
 
 
-    ##### app02 数据管理
-    path('data/list/', data.data_list),
-    path('data/add/', data.data_add),
-    path('data/update/', data.data_update),
-    path('data/<int:nid>/delete/', data.data_delete),
-    path('data/<int:nid>/edit/', data.data_edit),
+    # ##### app02 数据管理
+    # path('data/list/', data.data_list),
+    # path('data/add/', data.data_add),
+    # path('data/update/', data.data_update),
+    # path('data/<int:nid>/delete/', data.data_delete),
+    # path('data/<int:nid>/edit/', data.data_edit),
 
 
-    ##### app02 小工具
-    path('tools/list/', tools.tools_list),
-    path('tools/<str:tools_name>/use/', tools.tools_use),
-    path('tools/<str:tools_name>/update/', tools.tools_update),
+    # ##### app02 小工具
+    # path('tools/list/', tools.tools_list),
+    # path('tools/<str:tools_name>/use/', tools.tools_use),
+    # path('tools/<str:tools_name>/update/', tools.tools_update),
     
     #### home
     path('home/', TemplateView.as_view(template_name="home.html"), name="home"),
@@ -88,6 +88,9 @@ urlpatterns = [
 
     #### project_management
     path('project_management/', include('project_management.urls', namespace="project_management")),
+
+    #### chatbot
+    path('chatbot/', include('chatbot.urls', namespace="chatbot")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

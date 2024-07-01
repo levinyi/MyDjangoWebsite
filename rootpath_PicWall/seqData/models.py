@@ -17,7 +17,7 @@ def get_endpoint_choices():
 class CompanyInfo(models.Model):
     '''公司信息''' 
     name = models.CharField(verbose_name="公司名称", max_length=64)
-    endpoint = models.CharField(max_length=17, choices=get_endpoint_choices())
+    endpoint = models.CharField(max_length=255, choices=get_endpoint_choices())
     bucket = models.CharField(verbose_name="授权路径", max_length=300)
     KeyID = models.CharField(verbose_name="keyID", max_length=100)
     KeySecret = models.CharField(verbose_name="keySecret", max_length=100)

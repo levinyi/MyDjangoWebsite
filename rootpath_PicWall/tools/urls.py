@@ -8,10 +8,11 @@ app_name = 'tools'
 urlpatterns = [
     path('tools-list/', views.tools_list, name='tools_list'),
     path('tools-use/<str:tools_name>/', views.tools_use, name='tools_use'),
-    path('check-status/', views.check_status, name='check_status'),
+    path('check_status/<str:tools_name>/', views.check_status, name='check_status'),
     path('download_result/<str:unique_id>/', views.download_result, name='download_result'),
-    path('delete_result/<str:unique_id>/', views.delete_result, name='delete_result'),
+    path('delete_result/<str:tools_name>/<str:unique_id>/', views.delete_result, name='delete_result'),
     path('write_data_to_feishu_Sheet/', views.write_data_to_feishu_Sheet, name='write_data_to_feishu_Sheet'),
+    path('plate_view/', views.plate_view, name='plate_view'),
 
     path('inquiry_create/', views.inquiry_create, name='inquiry_create'),
     path('inquiry_list/', views.inquiry_list, name='inquiry_list'),

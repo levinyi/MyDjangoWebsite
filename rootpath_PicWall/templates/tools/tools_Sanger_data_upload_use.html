@@ -5,7 +5,7 @@
 <div class="container">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'tools:tools_list' %}">在线工具</a></li>
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="{% url 'tools:tools_list' %}">在线工具</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ tools_name }}</li>
         </ol>
     </nav>
@@ -30,7 +30,7 @@
                     <br><br>
                     点击"upload"按钮后会返回一个ID，使用该ID可以查看分析进度，并在分析完成后下载结果。
                     <br><br>
-                    查看结果状态：<a href="{% url 'tools:check_status' %}">以往状态查询</a>
+                    查看结果状态：<a href="{% url 'tools:check_status' tools_name %}">以往状态查询</a>
                 </h5>
             </div>
         </div>
@@ -66,7 +66,7 @@
             <div class="col-xs-7 mb-3">
                 {% if check_available %}
                     <span id="uniqueIdSpan">Your Unique ID: {{ unique_id }}</span>
-                    <a href="{% url 'tools:check_status' %}">Check Here</span>
+                    <a href="{% url 'tools:check_status' tools_name %}">Check Here</span>
                 {% endif %}
             </div>
         </form>

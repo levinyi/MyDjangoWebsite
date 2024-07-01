@@ -1,19 +1,29 @@
+import io
 import os
 import subprocess
-import  pandas as pd
+import pandas as pd
+import json
 import uuid
+import urllib.parse
+import requests
+from decouple import config
+from Bio import SeqIO
 import django.utils.timezone as timezone    # 使用timezone.now()获取当前时间
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-
-from project_management.models import GeneSynEnzymeCutSite
-from project_management.project_scripts.generate_REQIN import check_forbiden_seq
+from django.core.exceptions import BadRequest
 
 from .models import Inquiry, InquiryGeneSeqValidation, Tools, Result
-from .tasks import execute_script_and_package, Multi_Frag_Sanger_main_task
+from .tasks import codonOptimization_task, execute_script_and_package, Multi_Frag_Sanger_main_task
+from project_management.models import GeneSynEnzymeCutSite
+from project_management.project_scripts.feishu import send_message, get_access_token
 from seqData.utils.pagination import Pagination
+
+
+app_id = config('FEISHU_APP_ID')
+app_secret = config('FEISHU_APP_SECRET')
 
 
 def tools_list(request):
@@ -43,14 +53,26 @@ def tools_use(request, tools_name):
         tools.tools_freq += 1
         tools.save()
 
+        # 这一类工具是需要特殊处理的，因为这一类工具需要将用户上传的文件保存到服务器上，然后再调用python脚本进行处理
         if tools_name == "Sanger_data_upload":
             unique_id = str(uuid.uuid4())
             return save_file_status(request, user_ip, tools_name, unique_id)
         elif tools_name == "Multi_Frag_Sanger":
             unique_id = str(uuid.uuid4())
             return Multi_Frag_Sanger_main(request, user_ip, tools_name, unique_id)
+        elif tools_name == "CodonOptimization":
+            unique_id = str(uuid.uuid4())
+            return CodonOptimization_main(request, user_ip, tools_name, unique_id)
+        elif tools_name == "GenePlate_Explorer":
+            unique_id = str(uuid.uuid4())
+            return GenePlate_Explorer_main(request, user_ip, tools_name, unique_id)
         elif tools_name == "split_384_to_96":
             return split_384_to_96_main(result_path, input_files)
+        # 直接处理，不需要存储，直接存储成临时文件，然后返回给用户
+        elif tools_name == "FastaToTSV":
+            print("FastaToTSV, I'm here!")
+            return FastaToTSVConverter(input_files)
+        # 这一类工具是不需要特殊处理的，直接调用python脚本进行处理
         return save_file(request, result_path, python_script, input_files)
     
 
@@ -127,14 +149,186 @@ def Multi_Frag_Sanger_main(request, user_ip, tools_name, unique_id):
     }
     return render(request, 'tools/tools_Sanger_data_upload_use.html', response_data)
 
-def check_status(request):
-    # if request.method == "GET":
-    queryset = Result.objects.all().order_by("-id")
+def CodonOptimization_main(request, user_ip, tools_name, unique_id):
+    if request.user.is_authenticated:
+        user_email = request.user.email
+        if not user_email:
+            return HttpResponse("You have not provided an email address.")
+        else:
+            print(f"your email address is : {user_email}")
+    else:
+        return HttpResponse("You have not logged in.")
+    
+    project_name = request.POST.get("project_name")
+    optimization_method = request.POST.get("optimization_method")
+
+    project_path = os.path.join("/cygene4/pipeline/CodonOptimization/ForLocalSubmit", f'{unique_id}_{project_name}')
+
+    # 将用户上传的文件保存到 result_path目录下
+    temp_file = request.FILES["file_name"]
+    file_path = upload_file(temp_file, project_path)
+
+    result = Result.objects.create(
+        unique_id = unique_id,
+        tools_name = tools_name,
+        result_path = project_path,
+        user_ip= user_ip,
+        status='pending',
+        project_name = project_name
+    )
+    access_token = get_access_token(app_id, app_secret)
+    # 先打印出来看看都对不对
+    print(f"unique_id: {unique_id}, optimization_method: {optimization_method}, file_path: {file_path}, access_token: {access_token}, user_email: {user_email}")
+
+    # 将文件分析任务加入异步任务队列
+    codonOptimization_task.delay(user_ip, unique_id, optimization_method, file_path, access_token, user_email)
+    message = f"项目 '{project_name}' 分析任务已启动，请耐心等待结果！"
+    send_message(access_token, message, 'email', user_email)
+
+    return render(request, 'tools/tools_CodonOptimization_use.html',{'tools_name': tools_name})
+
+def GenePlate_Explorer_main(request, user_ip, tools_name, unique_id):
+    project_name = request.POST.get("project_name")
+    project_path = os.path.join("/cygene4/pipeline/GenePlate_Explorer", f'{unique_id}_{project_name}')
+
+    # 将用户上传的文件保存到 result_path 目录下
+    temp_file1 = request.FILES["file_name1"]
+    file1_path = upload_file(temp_file1, project_path)
+    temp_file2 = request.FILES["file_name2"]
+    file2_path = upload_file(temp_file2, project_path)
+    temp_file3 = request.FILES["file_name3"]
+    file3_path = upload_file(temp_file3, project_path)
+
+
+    Result.objects.create(
+        unique_id = unique_id,
+        tools_name = tools_name,
+        result_path = project_path,
+        user_ip= user_ip,
+        project_name = project_name
+    )
+
+    context = {
+        'tools_name': tools_name, 
+        'unique_id': unique_id,
+        'project_name': project_name,
+        'file1': file1_path,
+        'file2': file2_path,
+        'file3': file3_path,
+    }
+    return render(request, 'tools/tools_GenePlate_Explorer_main.html', context)
+
+@require_POST
+def plate_view(request):
+    try:
+        data = json.loads(request.body)
+        file1 = data['file1']
+        file2 = data['file2']
+        file3 = data['file3']
+    except (KeyError, json.JSONDecodeError) as e:
+        return JsonResponse({'status': 'error', 'message': f"Missing or invalid data: {str(e)}"}, status=400)
+
+    def process_5p30_file(file):
+        try:
+            df = pd.read_csv(file, sep='\t')
+            df['GeneID'] = 'G' + df['IntraPRJSN'].astype(str).str.zfill(4)
+            df = df[['Plate', 'WellPos', 'GeneID', 'FullSeqREAL_Credit']]
+            df = df.assign(FullSeqREAL_Credit=df['FullSeqREAL_Credit'].str.split(';')).explode('FullSeqREAL_Credit').reset_index(drop=True)
+            df['subplate'] = 'R' + (df.groupby(['Plate', 'WellPos']).cumcount() + 1).astype(str)
+            df['FullSeqREAL_Credit_Copy'] = df['FullSeqREAL_Credit']
+            return df
+        except FileNotFoundError:
+            raise BadRequest(f"File not found: {file}")
+        except pd.errors.ParserError:
+            raise BadRequest(f"Error parsing file: {file}")
+        except KeyError as e:
+            raise BadRequest(f"Missing expected column: {e.args[0]}")
+        except Exception as e:
+            raise BadRequest(f"Unexpected error processing file {file}: {str(e)}")
+    
+    def process_3p30_file(file):
+        try:
+            df = pd.read_csv(file, sep='\t')
+            df['Mfg_ID'] = '[' + df['PRJID'] + '][G' + df['IntraPRJSN'].astype(str).str.zfill(4) + ']'
+            return df[['Mfg_ID', 'GeneName']]
+        except FileNotFoundError:
+            raise BadRequest(f"File not found: {file}")
+        except pd.errors.ParserError:
+            raise BadRequest(f"Error parsing file: {file}")
+        except KeyError as e:
+            raise BadRequest(f"Missing expected column: {e.args[0]}")
+        except Exception as e:
+            raise BadRequest(f"Unexpected error processing file {file}: {str(e)}")
+    
+    def process_mtp_file(file):
+        try:
+            return pd.read_csv(file, sep='\t')
+        except FileNotFoundError:
+            raise BadRequest(f"File not found: {file}")
+        except pd.errors.ParserError:
+            raise BadRequest(f"Error parsing file: {file}")
+        except Exception as e:
+            raise BadRequest(f"Unexpected error processing file {file}: {str(e)}")
+
+    try:
+        df5 = process_5p30_file(file1)
+        df3 = process_3p30_file(file2)
+        mtp_df = process_mtp_file(file3)
+    except BadRequest as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+    try:
+        df_merge = pd.merge(df3, df5, left_on='Mfg_ID', right_on="FullSeqREAL_Credit", how='outer')
+        df_merge = pd.merge(df_merge, mtp_df, left_on='GeneName', right_on='WF3_Synthon_GeneName', how='left')
+    except KeyError as e:
+        return JsonResponse({'status': 'error', 'message': f"Error during merge: Missing expected column: {e.args[0]}"}, status=400)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': f"Unexpected error during merge: {str(e)}"}, status=500)
+
+    all_data = {'plates': {}, 'subplates': {}, 'missing_data': {}, 'extra_data': []}
+
+    for _, row in df_merge.iterrows():
+        plate_id = row['Plate']
+        well_pos = row['WellPos']
+        gene_id = row['GeneID']
+        subplate = row['subplate']
+        fullseq = row['FullSeqREAL_Credit']
+        FullSeqREAL_Credit = row['FullSeqREAL_Credit_Copy']
+        gene_name = row['GeneName']
+        wf3_synthon_gene_name = row['WF3_Synthon_GeneName']
+        wf3_mfg_id = row['WF3_Mfg_ID']
+
+        if pd.notna(plate_id) and pd.notna(well_pos) and pd.notna(gene_id):
+            all_data['plates'].setdefault(plate_id, {'well_positions': {}})['well_positions'][well_pos] = {
+                'gene_id': gene_id,
+                'gene_name': gene_name,
+                'fullseq': fullseq,
+                'hover_info': FullSeqREAL_Credit,
+                'wf3_synthon_gene_name': wf3_synthon_gene_name if pd.notna(wf3_synthon_gene_name) else '',
+                'wf3_mfg_id': wf3_mfg_id if pd.notna(wf3_mfg_id) else ''
+            }
+
+        if pd.notna(plate_id) and pd.notna(subplate) and pd.notna(well_pos) and pd.notna(fullseq):
+            all_data['subplates'].setdefault(plate_id, {}).setdefault(subplate, {})[well_pos] = fullseq
+
+        if pd.isna(plate_id) and gene_name not in all_data['extra_data']:
+            all_data['extra_data'].append(gene_name)
+
+        if pd.isna(wf3_mfg_id):
+            all_data['missing_data'].setdefault(plate_id, {}).setdefault(subplate, []).append(well_pos)
+
+    return JsonResponse({'status': 'success', 'all_data': all_data})
+
+def check_status(request, tools_name):
+    # 根据tools name获取所有的结果
+    user_ip = request.META['REMOTE_ADDR']
+    queryset = Result.objects.filter(tools_name=tools_name).order_by("-id")
 
     page_obj = Pagination(request, queryset, page_size=20, page_param="page", plus=5)
     context = {
         "queryset": page_obj.page_queryset,
-        "page_string": page_obj.html()
+        "page_string": page_obj.html(),
+        "tools_name": tools_name,
     }
     return render(request, 'tools/check_status.html', context)
 
@@ -146,7 +340,7 @@ def download_result(request, unique_id):
             return HttpResponse("任务尚未完成，无法下载")
 
         result_path = result.result_path
-        print("result_path: ",result_path)
+        print("result_path: ", result_path)
         if not os.path.exists(result_path):
             return HttpResponse("result path have been deleted by someone.")
         
@@ -162,10 +356,12 @@ def download_result(request, unique_id):
         with open(full_zip_file, "rb") as f:
             response = HttpResponse(f)
             response['Content-Type'] = 'application/octet-stream'
-            response['Content-Disposition'] = f'attachment;filename="{zip_file_name}"'
+            encoded_file_name = urllib.parse.quote(zip_file_name)
+            response['Content-Disposition'] = f'attachment; filename*=UTF-8\'\'{encoded_file_name}'
             return response
     except Result.DoesNotExist:
         return HttpResponse(f"Result with unique ID {unique_id} not found.")
+
 
 def save_file(request, result_path, python_script, input_file_list):
     '''定义一个函数, 用来保存用户上传的文件(可以有多个文件),且将文件传递给python脚本,并将脚本执行后的结果打包成zip文件, 并发送给浏览器'''
@@ -195,7 +391,7 @@ def save_file(request, result_path, python_script, input_file_list):
     os.system('{} {} {}'.format(python_script, " ".join(file_list), result_path))  # 调用python脚本
     # 等待系统执行分析脚本，完成后才能继续向下走：
     # 将result_path下的所有文件打包成zip文件
-    result_name = result_path.split("/")[-1]
+    result_name = os.path.basename(result_path) #  result_path.split("/")[-1] 
     # print("result_name : ", result_name)
     os.system(f'zip -q -j {result_path}/{result_name}.zip {result_path}/*')  # 调用zip脚本打包
     print("打包结果文件中...")
@@ -207,7 +403,7 @@ def save_file(request, result_path, python_script, input_file_list):
         print("文件打包完成，已返回前端页面")
         return response
 
-def delete_result(request, unique_id):
+def delete_result(request, tools_name, unique_id):
     result = Result.objects.get(unique_id=unique_id)
     result_path = result.result_path
     
@@ -217,7 +413,7 @@ def delete_result(request, unique_id):
     else:
         subprocess.run(f'rm -rf {result_path}', shell=True, check=True)
         result.delete()
-    return redirect('tools:check_status')
+    return redirect(f'/tools/check_status/{tools_name}/')
 
 #### 以下是执行各个工具的文件处理函数。
 
@@ -301,6 +497,22 @@ def Multi_Frag_Sanger(request):
     input_files.append(request.FILES.get("file_name2"))  # fasta file
     return script_files, input_files
 
+def CodonOptimization(request):
+    """1 input file and 2 argument"""
+    script_files = request.POST.get("project_name")
+    input_files = []
+    input_files.append(request.FILES.get("file_name"))
+    return script_files, input_files
+
+def GenePlate_Explorer(request):
+    """3 input file and 1 argument"""
+    script_files = request.POST.get("project_name")
+    input_files = []
+    input_files.append(request.FILES.get("file_name1"))
+    input_files.append(request.FILES.get("file_name2"))
+    input_files.append(request.FILES.get("file_name3"))
+    return script_files, input_files
+
 def split_384_to_96(request):
     """1 input json data and 0 argument"""
     script_files = ""
@@ -366,8 +578,47 @@ def genesyn_cal_len(request):
     input_files.append(request.FILES.get("file_name2"))
     return script_files, input_files
 
-import json
-import requests
+def PrimerDesign(request):
+    """1 input file"""
+    script_files = ""
+    input_files = []
+    input_files.append(request.FILES.get("file_name"))
+    return script_files, input_files
+
+def DualPrimerDesign(request):
+    """1 input file"""
+    script_files = ""
+    input_files = []
+    input_files.append(request.FILES.get("file_name"))
+    return script_files, input_files
+
+# 直接处理，存储成临时文件，然后返回给用户
+def FastaToTSV(request):
+    """1 input file"""
+    script_files = ""
+    input_files = []
+    input_files.append(request.FILES.get("file_name"))
+    return script_files, input_files
+
+def FastaToTSVConverter(input_files):
+    input_file = input_files[0]
+    print("input_file: ", input_file)
+
+    # 将上传的文件内容读取为字符串（文本模式）
+    content = input_file.read().decode('utf-8')
+    file_like = io.StringIO(content)  # 创建一个类文件对象
+
+    output_file = io.StringIO()
+    output_file.write("Name\tSequence\n")
+    for record in SeqIO.parse(file_like, "fasta"):
+        output_file.write(f"{record.id}\t{record.seq}\n")
+    
+    output_file.seek(0)  # 重新定位到文件的开始，以便读取
+    response = HttpResponse(output_file.getvalue(), content_type='text/tab-separated-values')
+    response['Content-Disposition'] = 'attachment; filename="result.tsv"'
+    return response
+
+
 def get_access_token(app_id, app_secret):
     url = "https://open.feishu.cn/open-apis/auth/v3/app_access_token/internal/"
     payload = {

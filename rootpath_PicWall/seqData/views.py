@@ -36,7 +36,7 @@ def update(request):
     最后返回/data/list/
     """
     now_year = str(datetime.datetime.now().year)
-    data_dir = "/cygene2/data/"
+    data_dir = "/cygene4/data/"
     data_list = os.listdir(os.path.join(data_dir, now_year))
 
     for each in data_list:
@@ -63,17 +63,15 @@ def update(request):
 @csrf_exempt
 def data_add(request):
     """添加数据"""
-    # 从ajax请求中获取的数据在request.post中就能得到
-    # print("request.POST:", request.POST)
-
-    form = DataModelForm(data = request.POST)
-    if form.is_valid():
-        form.save()
-        data_dict = {"status": True}
-        return HttpResponse(json.dumps(data_dict))
-    else:
-        data_dict = {"status": False, "error": form.errors}
-        return HttpResponse(json.dumps(data_dict, ensure_ascii=False))
+    if request.method == "POST":
+        form = DataModelForm(data=request.POST or None, user=request.user)
+        if form.is_valid():
+            form.save()
+            data_dict = {"status": True}
+            return HttpResponse(json.dumps(data_dict))
+        else:
+            data_dict = {"status": False, "error": form.errors}
+            return HttpResponse(json.dumps(data_dict, ensure_ascii=False))
 
 
 def data_delete(request, nid):

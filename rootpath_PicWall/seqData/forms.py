@@ -3,9 +3,15 @@ import os
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 
 from . import models
+from .tasks import download_data_from_oss_path, download_data_from_tos_path
+from project_management.project_scripts.feishu import get_access_token
+from decouple import config
 
+app_id = config('FEISHU_APP_ID')
+app_secret = config('FEISHU_APP_SECRET')
 
 class BootStrap:
     def __init__(self, *args, **kwargs):
@@ -30,6 +36,10 @@ class BootStrapForm(BootStrap, forms.Form):
 
 
 class DataModelForm(BootStrapModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user", None)  # 安全地弹出user，避免KeyError
+        super().__init__(*args, **kwargs)
+    
     class Meta:
         model = models.Data
         fields = ["company", "area", "data_path", ]
@@ -41,12 +51,10 @@ class DataModelForm(BootStrapModelForm):
         exists = models.Data.objects.filter(data_path=txt_data_path).exists()
         if exists:
             raise ValidationError("路径已经存在")
-        elif not txt_data_path.startswith("oss"):
-            raise ValidationError("路径不符合要求：以oss://开头")
+        elif not txt_data_path.startswith(("oss://","tos://")):
+            raise ValidationError("路径不符合要求：以oss://开头,或者以tos://开头")
 
-        # 保险起见，验证一下dest_data_dir是否是今年，如果不是，则抛出异常
         now_year = str(datetime.datetime.now().year)
-        # print(now_year)
         # 检查一下dest_data_dir是否存在,如果不存在，则创建
         dest_data_dir = os.path.join('/cygene4/data/', now_year)
         if not os.path.exists(dest_data_dir):
@@ -63,8 +71,18 @@ class DataModelForm(BootStrapModelForm):
         keyid = models.CompanyInfo.objects.get(name=company).KeyID
         keysecret = models.CompanyInfo.objects.get(name=company).KeySecret
 
-        os.system('nohup /cygene/software/ossutil64 cp {} {} -r -f --jobs 3 --parallel 10 --access-key-secret {} --access-key-id {} --endpoint {} >{}/nohup.out 2>{}/nohup.err &'.format(
-            txt_data_path, dest_data_dir, keysecret, keyid, endpoint, dest_data_dir, dest_data_dir))
-        # print('nohup /cygene/software/ossutil64 cp {} {} -r -f --jobs 3 --parallel 10 --access-key-secret {} --access-key-id {} --endpoint {} >{}/nohup.out 2>{}/nohup.err &'.format(
-        #        txt_data_path, dest_data_dir, keysecret, keyid, endpoint, dest_data_dir, dest_data_dir))
+        access_token = get_access_token(app_id, app_secret)
+        
+        # 获取用户的email
+        if self.user.is_authenticated:
+            email = self.user.email
+        else:
+            raise ValidationError("用户未登录")
+        # print("company: ", company)
+        if "火山引擎" in str(company):
+            # print("yes, I am here")
+            download_data_from_tos_path.delay(txt_data_path, dest_data_dir, access_token, email)
+        else:
+            download_data_from_oss_path.delay(txt_data_path, dest_data_dir, keysecret, keyid, endpoint, access_token, email)
+
         return txt_data_path

@@ -75,7 +75,6 @@ def write2plate(df, output_path):
             worksheet0.cell(row=r_idx, column=c_idx, value=value)
     
     # select columns for worksheet2
-    # df = df.loc[df['selected'] == 'Y']
     alist = list(zip(df.SourcePlate,df.SourceWell))
     worksheet = workbook.create_sheet(index=1, title="Clone Screening Output table")
 
@@ -101,8 +100,7 @@ def write2plate(df, output_path):
                 else:
                     relative_position.append("-")
                 absolute_position.append(abs_position)
-            ### print(absolute_position)
-            # print(relative_position)
+
             ## Set border line for each row.
             set_border(worksheet, 'I{}:T{}'.format(start_row+1, start_row+1))
             set_font(worksheet, 'H{}:T{}'.format(start_row, start_row+1))
