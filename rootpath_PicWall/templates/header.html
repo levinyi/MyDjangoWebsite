@@ -4,15 +4,14 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <!-- Logo部分 -->
             <a href="{% url 'home' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                <img src="{% static 'img/rootpath.logo.png' %}" alt="Logo"> <!-- 替换为您logo的路径 -->
+                <img src="{% static 'img/rootpath.logo.png' %}" alt="Logo">
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="{% url 'home' %}" class="nav-link px-2 text-secondary">Home</a></li>
                 <li><a href="{% url 'seqData:data_list' %}" class="nav-link px-2 text-white">数据管理</a></li>
-                {% comment %} <li><a href="{% url 'image:list_images' %}" class="nav-link px-2 text-white">图片管理</a></li>
-                {% endcomment %}
                 <li><a href="{% url 'project_management:product_list' %}" class="nav-link px-2 text-white">项目管理</a></li> 
                 <li><a href="{% url 'tools:tools_list' %}" class="nav-link px-2 text-white">在线工具</a></li>
+                <li><a href="{% url 'chatbot:chat' %}" class="nav-link px-2 text-white">客服AI</a></li>
                 {% comment %} <li><a href="{% url 'course:course_list' %}" class="nav-link px-2 text-white">知识库</a></li> {% endcomment %}
             </ul>
 
@@ -39,7 +38,3 @@
         </div>
     </div>
 </header>
-{% block javascript %}
-<script src="{% static 'plugins/bootstrap-5.1.3/js/bootstrap.js' %}"></script>
-<script src="{% static 'plugins/jquery-3.6.1.min.js' %}"></script>
-{% endblock %}

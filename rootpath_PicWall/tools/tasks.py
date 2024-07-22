@@ -1,10 +1,9 @@
-import subprocess
-from my_celery import app
 import os
+import subprocess
 from django.utils import timezone
-
-from project_management.project_scripts.feishu import send_message
 from .models import Result
+from project_management.project_scripts.feishu import send_message
+from my_celery import app
 from celery.utils.log import get_task_logger
 
 logger = get_task_logger(__name__)

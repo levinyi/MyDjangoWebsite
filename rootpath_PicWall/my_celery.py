@@ -13,3 +13,9 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # 自动发现任务
 app.autodiscover_tasks()
+
+# Flower 的配置（可选）
+app.conf.update(
+    CELERY_FLOWER_HOST='0.0.0.0',  # 监听所有 IP 地址
+    CELERY_FLOWER_PORT=5555,       # Flower 的默认端口是 5555
+)

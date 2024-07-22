@@ -867,3 +867,6 @@ def inquiry_download(request, pk):
         return JsonResponse({'status': 'error', 'message': 'Inquiry not found'})
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
+
+def test(request):
+    return render(request, 'tools/96Well_to_384Well.html')

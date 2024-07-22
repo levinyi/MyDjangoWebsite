@@ -21,4 +21,7 @@ urlpatterns = [
     path('inquiry_validation/<int:pk>/', views.inquiry_validation, name='inquiry_validation'),
     path('inquiry_save/<int:pk>/', views.inquiry_save, name='inquiry_save'),
     path('inquiry_download/<int:pk>/', views.inquiry_download, name='inquiry_download'),
+
+    
+    path('test/', views.test, name='test'),
 ]

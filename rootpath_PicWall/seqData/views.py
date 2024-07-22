@@ -22,9 +22,9 @@ def data_list(request):
     # 用Pagination分页
     page_obj = Pagination(request, queryset)
     context = {
-        'form':form,
-        'queryset':page_obj.page_queryset,
-        'page_string':page_obj.html()
+        'form': form,
+        'queryset': page_obj.page_queryset,
+        'page_string': page_obj.html()
     }
     return render(request, 'seqData/data_list.html', context)
 
@@ -52,9 +52,9 @@ def update(request):
             continue
         oss_path = os.path.join(bucket_path, each)
         true_path = os.path.join(data_dir, now_year, each)
-        area = models.EndPoint.objects.get(id=2) #  "华北2(北京)"
+        area = models.EndPoint.objects.get(id=2)  # "华北2(北京)"
         if not models.Data.objects.filter(data_path=oss_path).exists():
-            ctime = time.strftime("%Y-%m-%d",time.localtime(os.path.getctime(true_path)))
+            ctime = time.strftime("%Y-%m-%d", time.localtime(os.path.getctime(true_path)))
             # print("{}\t{}\t{}\t{}".format(oss_path, true_path, ctime, company))
             models.Data.objects.create(data_path=oss_path, area=area, company=company, ctime=ctime)
     return redirect('/SeqData/data-list/')
@@ -85,11 +85,11 @@ def data_edit(request, nid):
     row_object = models.Data.objects.filter(id=nid).first()
 
     if request.method == "GET":
-        form = DataModelForm(instance = row_object)
-        return render(request, "seqData/data_edit.html", {'form':form})
+        form = DataModelForm(instance=row_object)
+        return render(request, "seqData/data_edit.html", {'form': form})
     # 如果是POST请求:
     form = DataModelForm(data=request.POST, instance=row_object)
     if form.is_valid():
         form.save()
         return redirect('/SeqData/data-list/')
-    return render(request, 'seqData/data_edit.html',{'form':form})
+    return render(request, 'seqData/data_edit.html', {'form': form})

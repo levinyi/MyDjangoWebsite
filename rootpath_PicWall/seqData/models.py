@@ -1,15 +1,15 @@
 from django.db import models
 
-
 # Create your models here.
 class EndPoint(models.Model):
-    name = models.CharField(max_length = 100, verbose_name="区域")
-    endpoint = models.CharField(max_length = 100, verbose_name= "endpoint")
+    name = models.CharField(max_length=100, verbose_name="区域")
+    endpoint = models.CharField(max_length=100, verbose_name="endpoint")
 
     def __str__(self):
         return self.name
 
 def get_endpoint_choices():
+    # 仅在调用时执行查询
     rcs = EndPoint.objects.all()
     choices = [(x.name, x.endpoint) for x in rcs]
     return choices

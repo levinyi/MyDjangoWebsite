@@ -60,7 +60,12 @@ class DataModelForm(BootStrapModelForm):
         if not os.path.exists(dest_data_dir):
             os.makedirs('/cygene4/data/' + now_year)
 
-        # download from background.
+        # 将数据库查询移到表单提交后执行
+        self.fetch_endpoint_and_company_info()
+
+        return txt_data_path
+    
+    def fetch_endpoint_and_company_info(self):
         # 根据用户输入的area 从Endpoint数据库中获取 endpoint 
         area = self.cleaned_data['area']
         endpoint = models.EndPoint.objects.get(name=area).endpoint
@@ -81,8 +86,6 @@ class DataModelForm(BootStrapModelForm):
         # print("company: ", company)
         if "火山引擎" in str(company):
             # print("yes, I am here")
-            download_data_from_tos_path.delay(txt_data_path, dest_data_dir, access_token, email)
+            download_data_from_tos_path.delay(self.cleaned_data['data_path'], os.path.join('/cygene4/data/', str(datetime.datetime.now().year)), access_token, email)
         else:
-            download_data_from_oss_path.delay(txt_data_path, dest_data_dir, keysecret, keyid, endpoint, access_token, email)
-
-        return txt_data_path
+            download_data_from_oss_path.delay(self.cleaned_data['data_path'], os.path.join('/cygene4/data/', str(datetime.datetime.now().year)), keysecret, keyid, endpoint, access_token, email)
